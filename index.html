@@ -3,230 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0nlineCalculator</title>
-    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/s2/favicons?domain=calculator.com">
+    <title>Google</title>
+    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
     <style>
         :root {
             --bg: #0f172a; --nav: rgba(15, 23, 42, 0.95); --card: rgba(30, 41, 59, 0.7);
-            --text: #f8fafc; --dim: #94a3b8; --accent: #10b981; --orange: #f59e0b;
-            --red: #ef4444; --border: rgba(255, 255, 255, 0.1); --btn: rgba(255, 255, 255, 0.05);
-        }
-        .light-mode {
-            --bg: #f8fafc; --nav: rgba(255, 255, 255, 0.95); --card: #ffffff;
-            --text: #1e293b; --dim: #64748b; --accent: #059669; --orange: #d97706;
-            --red: #dc2626; --border: #e2e8f0; --btn: #f1f5f9;
+            --text: #f8fafc; --dim: #94a3b8; --accent: #3b82f6; --green: #10b981;
+            --orange: #f59e0b; --red: #ef4444; --border: rgba(255, 255, 255, 0.1);
         }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); transition: 0.3s; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; transition: 0.3s; }
         
-        /* Views */
-        .view { display: none; width: 100%; min-height: 100vh; flex-direction: column; align-items: center; padding-top: 40px; }
-        .active { display: flex; }
-
-        /* Top Nav */
-        .top-nav { width: 100%; background: var(--nav); border-bottom: 1px solid var(--border); padding: 12px 0; display: flex; justify-content: center; gap: 20px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .top-nav span { color: var(--dim); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* --- Universal Navigation --- */
+        .top-nav {
+            width: 100%; background: var(--nav); border-bottom: 1px solid var(--border);
+            padding: 12px 0; display: flex; justify-content: center; gap: 25px;
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+        }
+        .top-nav span { color: var(--dim); font-size: 13px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
         .top-nav span:hover { color: var(--accent); }
 
-        /* Calculator Card */
-        .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
-        .switch { position: relative; width: 44px; height: 22px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #475569; transition: .4s; border-radius: 20px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        /* --- View Management --- */
+        .view { display: none; width: 100%; min-height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 40px 20px; box-sizing: border-box; }
+        .active { display: flex; }
 
-        .screen { background: rgba(0,0,0,0.1); border: 1px solid var(--border); border-radius: 15px; padding: 20px; text-align: right; margin-bottom: 20px; }
-        #exp-field { font-size: 14px; color: var(--dim); min-height: 20px; }
-        #res-field { font-size: 38px; font-weight: 700; }
-
+        /* --- Calculator UI --- */
+        .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; width: 360px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .screen { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 20px; text-align: right; margin-bottom: 20px; border: 1px solid var(--border); }
+        #res-field { font-size: 32px; font-weight: 700; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .sci-row { grid-column: span 4; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 5px; }
+        .btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: white; cursor: pointer; }
+        .btn:hover { background: var(--accent); }
+        .btn-sci { font-size: 11px; color: var(--green); }
 
-        .btn { background: var(--btn); border: 1px solid var(--border); padding: 16px 0; border-radius: 12px; color: var(--text); font-size: 18px; cursor: pointer; transition: 0.1s; }
-        .btn:hover { background: var(--accent); color: white; transform: translateY(-2px); }
-        .btn-sci { font-size: 12px; padding: 10px 0; color: var(--accent); font-weight: 600; }
-        .btn-op { color: var(--orange); }
-        .btn-red { color: var(--red); }
-        .btn-eq { background: var(--orange); color: white; border: none; font-weight: 800; }
+        /* --- Grapher UI --- */
+        .graph-workspace { display: grid; grid-template-columns: 300px 1fr; gap: 20px; width: 100%; max-width: 1200px; height: 600px; }
+        .graph-controls { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
+        canvas { background: #000; border-radius: 20px; border: 1px solid var(--border); width: 100%; height: 100%; }
 
-        /* Games Arcade */
-        .arcade-container { max-width: 1200px; width: 90%; }
-        .search-bar { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 15px 25px; border-radius: 30px; color: white; font-size: 16px; margin-bottom: 30px; outline: none; transition: 0.3s; }
-        .search-bar:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
-        
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        .game-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s; }
-        .game-card:hover { transform: scale(1.05); border-color: var(--accent); }
+        /* --- Arcade UI --- */
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
+        .game-card { background: var(--card); border-radius: 15px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
+        .game-card:hover { transform: scale(1.05); border-color: var(--green); }
         .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-        .game-card p { padding: 12px; margin: 0; text-align: center; font-size: 14px; font-weight: 600; }
+        .game-card p { padding: 10px; margin: 0; text-align: center; font-size: 13px; }
 
-        /* Notes View */
-        .notes-area { width: 80%; max-width: 800px; background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border); }
-        #notepad { width: 100%; height: 400px; background: transparent; border: none; color: var(--text); font-size: 16px; outline: none; resize: none; line-height: 1.6; }
-
-        /* Player Overlay */
+        /* --- Player Overlay --- */
         #player { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; flex-direction: column; }
-        #player iframe { flex-grow: 1; width: 100%; border: none; }
-        .p-controls { background: #1e293b; padding: 10px 20px; display: flex; align-items: center; gap: 20px; }
+        #player iframe { flex-grow: 1; border: none; }
+
+        /* --- Cheat Sheet UI --- */
+        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
+        .formula-box { background: var(--card); padding: 20px; border-radius: 15px; border-left: 4px solid var(--accent); }
+        code { color: var(--green); font-family: monospace; }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
         <span onclick="changeView('calculator')">Calculator</span>
-        <span onclick="changeView('notes')">Study Notes</span>
-        <span onclick="toggleSettings()">Settings</span>
+        <span onclick="changeView('algebra')">Algebra</span>
+        <span onclick="changeView('geometry')">Geometry</span>
+        <span onclick="changeView('grapher')">Graphing Calc</span>
     </nav>
 
     <div id="view-calculator" class="view active">
         <div class="calc-card">
-            <div class="calc-header">
-                <span id="mode-label">Standard Mode</span>
-                <label class="switch">
-                    <input type="checkbox" id="secret-toggle" onchange="updateLabel()">
-                    <span class="slider"></span>
-                </label>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:10px; color:var(--dim)">
+                <span>PRECISION ENGINE v5.0</span>
+                <input type="checkbox" id="secret-trigger">
             </div>
             <div class="screen">
-                <div id="exp-field"></div>
+                <div id="exp-field" style="height:20px; font-size:12px; color:var(--dim)"></div>
                 <div id="res-field">0</div>
             </div>
             <div class="grid">
-                <div class="sci-row">
-                    <button class="btn btn-sci" onclick="sci('sin')">sin</button>
-                    <button class="btn btn-sci" onclick="sci('cos')">cos</button>
-                    <button class="btn btn-sci" onclick="sci('tan')">tan</button>
-                    <button class="btn btn-sci" onclick="sci('log')">log</button>
-                    <button class="btn btn-sci" onclick="sci('sqrt')">√</button>
-                </div>
-                <button class="btn btn-red" onclick="clr()">AC</button>
-                <button class="btn btn-op" onclick="press('/')">÷</button>
-                <button class="btn btn-op" onclick="press('*')">×</button>
-                <button class="btn btn-op" onclick="press('-')">−</button>
-                
+                <button class="btn btn-sci" onclick="sci('sin')">sin</button>
+                <button class="btn btn-sci" onclick="sci('cos')">cos</button>
+                <button class="btn btn-sci" onclick="sci('tan')">tan</button>
+                <button class="btn btn-sci" onclick="sci('sqrt')">√</button>
+                <button class="btn" style="color:var(--red)" onclick="clr()">AC</button>
+                <button class="btn" onclick="press('/')">÷</button>
+                <button class="btn" onclick="press('*')">×</button>
+                <button class="btn" onclick="press('-')">−</button>
                 <button class="btn" onclick="press('7')">7</button>
                 <button class="btn" onclick="press('8')">8</button>
                 <button class="btn" onclick="press('9')">9</button>
-                <button class="btn btn-op" onclick="press('+')">+</button>
-                
-                <button class="btn" onclick="press('4')">4</button>
-                <button class="btn" onclick="press('5')">5</button>
-                <button class="btn" onclick="press('6')">6</button>
-                <button class="btn btn-eq" style="grid-row: span 2" onclick="solve()">=</button>
-                
-                <button class="btn" onclick="press('1')">1</button>
-                <button class="btn" onclick="press('2')">2</button>
-                <button class="btn" onclick="press('3')">3</button>
-                
+                <button class="btn" onclick="press('+')">+</button>
                 <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button>
                 <button class="btn" onclick="press('.')">.</button>
+                <button class="btn" style="background:var(--orange)" onclick="solve()">=</button>
             </div>
         </div>
     </div>
 
-    <div id="view-games" class="view">
-        <div class="arcade-container">
-            <input type="text" class="search-bar" id="game-search" placeholder="Search math resources..." oninput="renderGames()">
-            <div id="game-grid" class="game-grid"></div>
+    <div id="view-algebra" class="view">
+        <div class="sheet-grid">
+            <div class="formula-box"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code></div>
+            <div class="formula-box"><h4>Log Rules</h4><code>log(xy) = log x + log y</code></div>
+            <div class="formula-box"><h4>Binomial</h4><code>(a+b)² = a² + 2ab + b²</code></div>
         </div>
     </div>
 
-    <div id="view-notes" class="view">
-        <div class="notes-area">
-            <h2 style="margin-top:0">Homework Notes</h2>
-            <textarea id="notepad" placeholder="Type your geometry proofs here..."></textarea>
+    <div id="view-geometry" class="view">
+        <div class="sheet-grid">
+            <div class="formula-box" style="border-left-color:var(--green)"><h4>Circle</h4><code>Area = πr²</code></div>
+            <div class="formula-box" style="border-left-color:var(--green)"><h4>Pythagorean</h4><code>a² + b² = c²</code></div>
+            <div class="formula-box" style="border-left-color:var(--green)"><h4>Sphere</h4><code>V = 4/3πr³</code></div>
         </div>
+        
+    </div>
+
+    <div id="view-grapher" class="view">
+        <div class="graph-workspace">
+            <div class="graph-controls">
+                <h3 style="color:var(--accent)">Functions</h3>
+                <input type="text" id="eq-input" style="width:100%; background:#000; border:1px solid var(--border); color:var(--green); padding:10px; border-radius:8px;" value="Math.sin(x)">
+                <button class="btn" style="width:100%; margin-top:10px;" onclick="drawGraph()">Plot</button>
+            </div>
+            <canvas id="graphCanvas"></canvas>
+        </div>
+        
+    </div>
+
+    <div id="view-games" class="view">
+        <div class="game-grid" id="game-grid"></div>
     </div>
 
     <div id="player">
-        <div class="p-controls">
-            <button class="btn btn-red" style="padding: 5px 15px; font-size: 13px;" onclick="closeGame()">Back to Library (ESC)</button>
-            <span id="playing-title">Resource</span>
+        <div style="background:#1e293b; padding:10px; display:flex; gap:20px;">
+            <button class="btn" style="padding:5px 15px;" onclick="closePlayer()">Exit</button>
+            <span id="playing-title" style="align-self:center">Loading Resource...</span>
         </div>
         <iframe id="game-frame"></iframe>
     </div>
 
     <script>
-        const GAMES_LIST = [
+        const GAMES = [
             {"name": "1v1.LOL", "url": "https://geet.in.net/get/1v1-lol/game.html", "img": "https://geet.in.net/get/1v1-lol/splash.png"},
-            {"name": "Subway Surfers", "url": "https://geet.in.net/get/subway-surfers/game.html", "img": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"},
             {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://geet.in.net/get/slope/slope4.jpeg"},
-            {"name": "Minecraft 1.5", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://geet.in.net/get/minecraft-15/splash.jpeg"},
-            {"name": "Geometry Dash", "url": "https://geet.in.net/get/geometry-dash/game.html", "img": "https://geet.in.net/get/geometry-dash/geoscratchicon.png"},
-            {"name": "FNAF", "url": "https://geet.in.net/get/fnaf/game.html", "img": "https://geet.in.net/get/fnaf/logo.jpg"},
-            {"name": "Eaglercraft", "url": "https://geet.in.net/get/eagle-craft/embed.html", "img": "https://geet.in.net/get/eagle-craft/logo.jpg"},
-            {"name": "Cookie Clicker", "url": "https://geet.in.net/get/cookie-clicker/game.html", "img": "https://geet.in.net/get/cookie-clicker/thumb.png"},
-            {"name": "Drive Mad", "url": "https://geet.in.net/get/drive-mad/game.html", "img": "https://geet.in.net/get/drive-mad/logo.jpg"},
-            {"name": "BitLife", "url": "https://geet.in.net/get/bl/game.html", "img": "https://geet.in.net/get/bl/splash.png"},
             {"name": "Retro Bowl", "url": "https://geet.in.net/get/retro-bowl/game.html", "img": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
-            {"name": "Moto X3M", "url": "https://geet.in.net/get/motox3m/game.html", "img": "https://geet.in.net/get/motox3m/splash.jpg"}
+            {"name": "Minecraft", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://geet.in.net/get/minecraft-15/splash.jpeg"}
         ];
 
         let exp = "";
-        const resBox = document.getElementById('res-field');
-        const expBox = document.getElementById('exp-field');
-
-        function press(v) { exp += v; resBox.textContent = exp; }
-        function clr() { exp = ""; resBox.textContent = "0"; expBox.textContent = ""; }
-        function updateLabel() { document.getElementById('mode-label').textContent = document.getElementById('secret-toggle').checked ? "Advanced Mode" : "Standard Mode"; }
-
+        function press(v) { exp += v; document.getElementById('res-field').textContent = exp; }
+        function clr() { exp = ""; document.getElementById('res-field').textContent = "0"; }
         function solve() {
-            const secret = document.getElementById('secret-toggle').checked;
-            if (secret && exp === "8290") { changeView('games'); clr(); return; }
-            try {
-                expBox.textContent = exp + " =";
-                exp = eval(exp.replace('×', '*').replace('÷', '/')).toString();
-                resBox.textContent = exp;
-            } catch { resBox.textContent = "Error"; exp = ""; }
+            if (document.getElementById('secret-trigger').checked && exp === "8290") { changeView('games'); clr(); return; }
+            try { exp = eval(exp).toString(); document.getElementById('res-field').textContent = exp; } 
+            catch { document.getElementById('res-field').textContent = "Error"; }
         }
-
         function sci(type) {
             let v = parseFloat(exp) || 0;
             if (type === 'sin') exp = Math.sin(v * Math.PI / 180).toFixed(4);
-            if (type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
             if (type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
-            resBox.textContent = exp;
+            document.getElementById('res-field').textContent = exp;
         }
 
         function changeView(v) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + v).classList.add('active');
-            
-            const fav = document.getElementById('favicon');
-            if (v === 'calculator' || v === 'notes') {
-                document.title = "0nlineCalculator";
-                fav.href = "https://www.google.com/s2/favicons?domain=calculator.com";
-            } else {
-                document.title = "Google";
-                fav.href = "https://www.google.com/favicon.ico";
-                if(v === 'games') renderGames();
+            if (v === 'grapher') setTimeout(drawGraph, 100);
+            if (v === 'games') renderGames();
+        }
+
+        function drawGraph() {
+            const c = document.getElementById('graphCanvas'); const ctx = c.getContext('2d');
+            c.width = c.clientWidth; c.height = c.clientHeight;
+            ctx.strokeStyle = '#334155'; ctx.beginPath();
+            for(let i=0; i<c.width; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,c.height); }
+            for(let i=0; i<c.height; i+=40) { ctx.moveTo(0,i); ctx.lineTo(c.width,i); }
+            ctx.stroke();
+            ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 3; ctx.beginPath();
+            for(let screenX=0; screenX<c.width; screenX++) {
+                let x = (screenX - c.width/2)/40;
+                let y = eval(document.getElementById('eq-input').value);
+                let screenY = c.height/2 - (y * 40);
+                if(screenX===0) ctx.moveTo(screenX, screenY); else ctx.lineTo(screenX, screenY);
             }
+            ctx.stroke();
         }
 
         function renderGames() {
-            const q = document.getElementById('game-search').value.toLowerCase();
-            const grid = document.getElementById('game-grid');
-            grid.innerHTML = "";
-            GAMES_LIST.filter(g => g.name.toLowerCase().includes(q)).forEach(g => {
-                const div = document.createElement('div');
-                div.className = 'game-card';
+            const grid = document.getElementById('game-grid'); grid.innerHTML = "";
+            GAMES.forEach(g => {
+                const div = document.createElement('div'); div.className = 'game-card';
                 div.innerHTML = `<img src="${g.img}"><p>${g.name}</p>`;
-                div.onclick = () => {
-                    document.getElementById('game-frame').src = g.url;
-                    document.getElementById('playing-title').textContent = g.name;
-                    document.getElementById('player').style.display = 'flex';
-                };
+                div.onclick = () => { document.getElementById('game-frame').src = g.url; document.getElementById('player').style.display='flex'; };
                 grid.appendChild(div);
             });
         }
 
-        function closeGame() { document.getElementById('player').style.display = 'none'; document.getElementById('game-frame').src = ""; }
-        function toggleSettings() { document.body.classList.toggle('light-mode'); }
-        document.addEventListener('keydown', e => { if(e.key === 'Escape' || e.key === '`') { closeGame(); changeView('calculator'); } });
+        function closePlayer() { document.getElementById('player').style.display='none'; document.getElementById('game-frame').src=''; }
+        document.addEventListener('keydown', e => { if(e.key === 'Escape' || e.key === '`') { closePlayer(); changeView('calculator'); }});
     </script>
 </body>
 </html>
