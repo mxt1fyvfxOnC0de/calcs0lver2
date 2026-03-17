@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S0lveCalc02</title>
+    <title>0nlineCalculator</title>
+    <link rel="icon" type="image/x-icon" href="https://www.google.com/s2/favicons?domain=calculator.com">
     <style>
         :root {
             --bg-color: #2c343f;
@@ -12,28 +13,51 @@
             --btn-gray: #434c5e;
             --btn-orange: #e67e22;
             --btn-red: #e74c3c;
-            --text-dark: #1a1a1a;
+            --accent-green: #2ecc71;
             --text-light: #ffffff;
-            --arcade-bg: #1a1c23;
+            --arcade-bg: #111827;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #d1d9e6; /* Light outer bg like screenshot 2 */
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #d1d9e6;
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* --- Calculator Styling (Matches Screenshot 2) --- */
-        #calc-container {
+        /* --- Top Navigation Bar --- */
+        .top-nav {
+            width: 100%;
+            background: #1f2937;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .top-nav a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .top-nav a:hover { color: var(--text-light); }
+
+        /* --- Calculator Section --- */
+        #calc-view {
+            margin-top: 50px;
             background-color: var(--calc-bg);
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
+            border-radius: 15px;
             width: 380px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid #4b5563;
         }
 
         .mode-header {
@@ -41,143 +65,139 @@
             justify-content: space-between;
             align-items: center;
             color: white;
-            margin-bottom: 15px;
-            font-weight: 500;
+            margin-bottom: 20px;
         }
 
-        /* Toggle Switch */
-        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        /* --- Green Switch Styling --- */
+        .switch { position: relative; display: inline-block; width: 54px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #999; }
-        input:checked + .slider:before { transform: translateX(24px); }
+        .slider { 
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: #4b5563; transition: .4s; border-radius: 34px; 
+        }
+        .slider:before { 
+            position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; 
+            background-color: white; transition: .4s; border-radius: 50%; 
+        }
+        input:checked + .slider { 
+            background-color: var(--accent-green); 
+            box-shadow: 0 0 15px var(--accent-green);
+        }
+        input:checked + .slider:before { transform: translateX(26px); }
 
         .display-screen {
             background-color: var(--display-bg);
-            height: 100px;
+            height: 90px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: flex-end;
-            justify-content: flex-end;
             padding: 15px;
-            box-sizing: border-box;
-            color: var(--text-dark);
-            font-size: 3rem;
-            font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
+            color: #1a1a1a;
+            font-size: 2.5rem;
+            font-family: 'Courier New', monospace;
+            border: 4px solid #2d3748;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .sci-row {
-            grid-column: span 4;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-bottom: 8px;
-        }
+        .keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .sci-row { grid-column: span 4; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 5px; }
 
         .btn {
             border: none;
-            border-radius: 6px;
-            padding: 15px 5px;
+            border-radius: 8px;
+            padding: 15px 0;
             font-size: 1.1rem;
             color: white;
             cursor: pointer;
             background-color: var(--btn-gray);
-            transition: brightness 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #2d3748;
         }
 
-        .btn:hover { filter: brightness(1.2); }
-        .btn-sci { font-size: 0.85rem; padding: 10px 0; }
-        .btn-orange { background-color: var(--btn-orange); }
-        .btn-red { background-color: var(--btn-red); }
+        .btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+        .btn:active { transform: translateY(2px); box-shadow: 0 0 0 #2d3748; }
+        .btn-sci { font-size: 0.8rem; padding: 10px 0; background: #374151; }
+        .btn-orange { background-color: var(--btn-orange); box-shadow: 0 4px 0 #a04a00; }
+        .btn-red { background-color: var(--btn-red); box-shadow: 0 4px 0 #922b21; }
         .btn-wide { grid-column: span 2; }
 
-        /* --- Arcade Styling (Matches Screenshot 1) --- */
-        #arcade-container {
+        /* --- Arcade Styling --- */
+        #arcade-view {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--arcade-bg);
-            z-index: 1000;
+            z-index: 9999;
             overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 30px;
         }
 
-        .arcade-nav {
+        .arcade-header {
+            max-width: 1200px;
+            margin: 0 auto 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto 30px;
         }
 
         .search-bar {
-            background: #252833;
-            border: 1px solid #333;
-            padding: 10px 20px;
-            border-radius: 20px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            padding: 12px 25px;
+            border-radius: 30px;
             color: white;
-            width: 300px;
+            width: 40%;
             outline: none;
+            transition: 0.3s;
         }
 
-        .exit-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .search-bar:focus { border-color: var(--accent-green); box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .game-item {
-            background: #1e212b;
-            border-radius: 8px;
+        .game-card {
+            background: #1f2937;
+            border-radius: 12px;
             overflow: hidden;
-            text-align: center;
-            transition: 0.3s;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid #374151;
         }
 
-        .game-item:hover { border-color: #444; transform: scale(1.03); }
-        .game-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .game-item .info { padding: 10px; }
-        .game-item .name { font-size: 0.8rem; font-weight: bold; color: #ccc; display: block; }
-        .game-item .code { font-size: 0.7rem; color: #666; }
+        .game-card:hover { transform: scale(1.05); border-color: var(--accent-green); }
+        .game-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .game-card p { padding: 12px; margin: 0; text-align: center; font-size: 0.9rem; font-weight: bold; color: #e5e7eb; }
 
-        /* Fullscreen Player */
-        #game-player {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 2000;
+        .exit-btn {
+            background: var(--btn-red);
+            color: white; border: none; padding: 10px 25px; border-radius: 8px;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
         }
+        .exit-btn:hover { background: #c0392b; transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <div id="calc-container">
+    <nav class="top-nav">
+        <a href="#">Algebra</a>
+        <a href="#">Geometry</a>
+        <a href="#">Fractions</a>
+        <a href="#">GPA Calc</a>
+        <a href="#">Loan Calc</a>
+    </nav>
+
+    <div id="calc-view">
         <div class="mode-header">
-            <span>Code Mode</span>
+            <span>Scientific Mode</span>
             <label class="switch">
                 <input type="checkbox" id="codeMode">
                 <span class="slider"></span>
@@ -223,32 +243,23 @@
         </div>
     </div>
 
-    <div id="arcade-container">
-        <div class="arcade-nav">
-            <input type="text" class="search-bar" id="search" placeholder="Search..." oninput="filterGames()">
-            <button class="exit-btn" onclick="closeArcade()">Exit</button>
+    <div id="arcade-view">
+        <div class="arcade-header">
+            <input type="text" class="search-bar" id="gameSearch" placeholder="Search for a game..." oninput="drawArcade()">
+            <button class="exit-btn" onclick="closeArcade()">Exit Arcade</button>
         </div>
         <div class="game-grid" id="game-grid"></div>
-    </div>
-
-    <div id="game-player">
-        <button class="exit-btn" style="position: absolute; top: 10px; right: 10px;" onclick="closePlayer()">Close</button>
-        <iframe id="iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
     <script>
         const GAMES_DATA = [
             {"code": "1001", "name": "10 Minutes Till Dawn", "iframe": "https://geet.in.net/get/10-minutes-till-dawn/game.html", "thumb": "https://geet.in.net/get/10-minutes-till-dawn/splash.png"},
             {"code": "1002", "name": "1v1.LOL", "iframe": "https://geet.in.net/get/1v1-lol/game.html", "thumb": "https://geet.in.net/get/1v1-lol/splash.png"},
-            {"code": "1003", "name": "1 on 1 Soccer", "iframe": "https://geet.in.net/get/1v1-soccer/game.html", "thumb": "https://geet.in.net/get/1v1-soccer/logo.jpg"},
             {"code": "1004", "name": "2048", "iframe": "https://geet.in.net/get/2048/game.html", "thumb": "https://geet.in.net/get/2048/thumb.png"},
-            {"code": "1005", "name": "3D Bowling", "iframe": "https://geet.in.net/get/3d-bowling/game.html", "thumb": "https://geet.in.net/get/3d-bowling/logo.jpg"},
-            {"code": "1006", "name": "8 Ball", "iframe": "https://geet.in.net/get/8-ball/game.html", "thumb": "https://geet.in.net/get/8-ball/tmp/8BallBilliardsClassicTeaser.jpg"},
-            {"code": "1009", "name": "Ages of Conflict", "iframe": "https://geet.in.net/get/ages-of-conflict/game.html", "thumb": "https://geet.in.net/get/ages-of-conflict/splash.jpg"},
             {"code": "1010", "name": "Among Us", "iframe": "https://geet.in.net/get/among-us/game.html", "thumb": "https://geet.in.net/get/among-us/red.png"},
-            {"code": "1016", "name": "Backrooms", "iframe": "https://geet.in.net/get/backrooms/game.html", "thumb": "https://geet.in.net/get/backrooms/img/splash.jpg"},
+            {"code": "1051", "name": "Drive Mad", "iframe": "https://geet.in.net/get/drive-mad/game.html", "thumb": "https://geet.in.net/get/drive-mad/logo.jpg"},
+            {"code": "1090", "name": "Retro Bowl", "iframe": "https://geet.in.net/get/retro-bowl/game.html", "thumb": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
             {"code": "2007", "name": "Subway Surfers", "iframe": "https://geet.in.net/get/subway-surfers/game.html", "thumb": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"}
-            // Add remaining data here
         ];
 
         let exp = "";
@@ -263,57 +274,51 @@
         function reset() { exp = "0"; disp.innerText = exp; }
 
         function calculate() {
-            if(document.getElementById('codeMode').checked && exp === "8290") {
-                openArcade();
+            const isCodeMode = document.getElementById('codeMode').checked;
+            
+            // THE FIX: Check password BEFORE eval
+            if(isCodeMode && exp === "8290") {
+                document.getElementById('arcade-view').style.display = 'block';
                 reset();
+                drawArcade();
                 return;
             }
+
             try {
+                if (exp === "" || exp === "0") return;
                 exp = eval(exp).toString();
                 disp.innerText = exp;
             } catch {
                 disp.innerText = "Error";
-                exp = "";
+                exp = "0";
             }
         }
 
         function sci(type) {
             let v = parseFloat(exp) || 0;
             if(type === 'sin') exp = Math.sin(v * Math.PI / 180).toFixed(4);
-            if(type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
-            if(type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
-            if(type === 'pi') exp = Math.PI.toFixed(4);
+            else if(type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
+            else if(type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
+            else if(type === 'pi') exp = Math.PI.toFixed(4);
+            else if(type === 'e') exp = Math.E.toFixed(4);
             disp.innerText = exp;
         }
 
-        function openArcade() {
-            document.getElementById('arcade-container').style.display = 'block';
-            filterGames();
-        }
-
-        function closeArcade() { document.getElementById('arcade-container').style.display = 'none'; }
-
-        function filterGames() {
-            const term = document.getElementById('search').value.toLowerCase();
+        function drawArcade() {
+            const term = document.getElementById('gameSearch').value.toLowerCase();
             const grid = document.getElementById('game-grid');
             grid.innerHTML = "";
             
             GAMES_DATA.filter(g => g.name.toLowerCase().includes(term)).forEach(g => {
-                const div = document.createElement('div');
-                div.className = 'game-item';
-                div.innerHTML = `<img src="${g.thumb}"><div class="info"><span class="name">${g.name}</span><span class="code">${g.code}</span></div>`;
-                div.onclick = () => {
-                    document.getElementById('iframe').src = g.iframe;
-                    document.getElementById('game-player').style.display = 'block';
-                };
-                grid.appendChild(div);
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `<img src="${g.thumb}"><p>${g.name}</p>`;
+                card.onclick = () => window.open(g.iframe, '_blank'); 
+                grid.appendChild(card);
             });
         }
 
-        function closePlayer() {
-            document.getElementById('game-player').style.display = 'none';
-            document.getElementById('iframe').src = "";
-        }
+        function closeArcade() { document.getElementById('arcade-view').style.display = 'none'; }
     </script>
 </body>
 </html>
