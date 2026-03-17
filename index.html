@@ -12,7 +12,7 @@
             --orange: #f59e0b; --red: #ef4444; --border: rgba(255, 255, 255, 0.1);
         }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; transition: 0.3s; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; }
         
         /* --- Universal Navigation --- */
         .top-nav {
@@ -27,35 +27,43 @@
         .view { display: none; width: 100%; min-height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 40px 20px; box-sizing: border-box; }
         .active { display: flex; }
 
-        /* --- Calculator UI --- */
-        .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; width: 360px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .screen { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 20px; text-align: right; margin-bottom: 20px; border: 1px solid var(--border); }
-        #res-field { font-size: 32px; font-weight: 700; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: white; cursor: pointer; }
-        .btn:hover { background: var(--accent); }
-        .btn-sci { font-size: 11px; color: var(--green); }
+        /* --- Cleaner Toggle Switch --- */
+        .mode-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 11px; color: var(--dim); }
+        .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(16px); }
 
-        /* --- Grapher UI --- */
-        .graph-workspace { display: grid; grid-template-columns: 300px 1fr; gap: 20px; width: 100%; max-width: 1200px; height: 600px; }
-        .graph-controls { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
-        canvas { background: #000; border-radius: 20px; border: 1px solid var(--border); width: 100%; height: 100%; }
+        /* --- Full Calculator UI --- */
+        .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; width: 340px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .screen { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; text-align: right; margin-bottom: 15px; border: 1px solid var(--border); }
+        #res-field { font-size: 28px; font-weight: 700; min-height: 34px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 14px; border-radius: 10px; color: white; cursor: pointer; font-size: 16px; transition: 0.1s; }
+        .btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
+        .btn-sci { font-size: 12px; color: var(--accent); background: rgba(59, 130, 246, 0.1); }
+        .btn-op { color: var(--orange); }
 
-        /* --- Arcade UI --- */
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
-        .game-card { background: var(--card); border-radius: 15px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
-        .game-card:hover { transform: scale(1.05); border-color: var(--green); }
-        .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-        .game-card p { padding: 10px; margin: 0; text-align: center; font-size: 13px; }
+        /* --- Interactive Formula Cards --- */
+        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
+        .formula-box { 
+            background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); 
+            cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .formula-box:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .formula-box h4 { margin: 0 0 10px 0; color: var(--accent); }
+        .formula-desc { display: none; margin-top: 15px; font-size: 13px; color: var(--dim); line-height: 1.4; border-top: 1px solid var(--border); padding-top: 10px; }
+        .formula-box.open .formula-desc { display: block; }
 
-        /* --- Player Overlay --- */
+        /* --- Grapher --- */
+        .graph-workspace { display: grid; grid-template-columns: 280px 1fr; gap: 20px; width: 100%; max-width: 1200px; height: 500px; }
+        canvas { background: #000; border-radius: 15px; border: 1px solid var(--border); cursor: crosshair; }
+
+        /* --- Player --- */
         #player { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; flex-direction: column; }
         #player iframe { flex-grow: 1; border: none; }
-
-        /* --- Cheat Sheet UI --- */
-        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
-        .formula-box { background: var(--card); padding: 20px; border-radius: 15px; border-left: 4px solid var(--accent); }
-        code { color: var(--green); font-family: monospace; }
     </style>
 </head>
 <body>
@@ -69,12 +77,15 @@
 
     <div id="view-calculator" class="view active">
         <div class="calc-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:10px; color:var(--dim)">
-                <span>PRECISION ENGINE v5.0</span>
-                <input type="checkbox" id="secret-trigger">
+            <div class="mode-container">
+                <label class="switch">
+                    <input type="checkbox" id="secret-trigger">
+                    <span class="slider"></span>
+                </label>
+                <span>ADVANCED MODE</span>
             </div>
             <div class="screen">
-                <div id="exp-field" style="height:20px; font-size:12px; color:var(--dim)"></div>
+                <div id="exp-field" style="height:18px; font-size:11px; color:var(--dim)"></div>
                 <div id="res-field">0</div>
             </div>
             <div class="grid">
@@ -82,34 +93,72 @@
                 <button class="btn btn-sci" onclick="sci('cos')">cos</button>
                 <button class="btn btn-sci" onclick="sci('tan')">tan</button>
                 <button class="btn btn-sci" onclick="sci('sqrt')">√</button>
-                <button class="btn" style="color:var(--red)" onclick="clr()">AC</button>
-                <button class="btn" onclick="press('/')">÷</button>
-                <button class="btn" onclick="press('*')">×</button>
-                <button class="btn" onclick="press('-')">−</button>
+                
+                <button class="btn btn-op" onclick="clr()">AC</button>
+                <button class="btn btn-op" onclick="press('/')">÷</button>
+                <button class="btn btn-op" onclick="press('*')">×</button>
+                <button class="btn btn-op" onclick="press('-')">−</button>
+                
                 <button class="btn" onclick="press('7')">7</button>
                 <button class="btn" onclick="press('8')">8</button>
                 <button class="btn" onclick="press('9')">9</button>
-                <button class="btn" onclick="press('+')">+</button>
+                <button class="btn btn-op" onclick="press('+')">+</button>
+                
+                <button class="btn" onclick="press('4')">4</button>
+                <button class="btn" onclick="press('5')">5</button>
+                <button class="btn" onclick="press('6')">6</button>
+                <button class="btn btn-op" onclick="sci('log')">log</button>
+                
+                <button class="btn" onclick="press('1')">1</button>
+                <button class="btn" onclick="press('2')">2</button>
+                <button class="btn" onclick="press('3')">3</button>
+                <button class="btn btn-op" style="background:var(--orange); color:white;" onclick="solve()">=</button>
+                
                 <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button>
                 <button class="btn" onclick="press('.')">.</button>
-                <button class="btn" style="background:var(--orange)" onclick="solve()">=</button>
+                <button class="btn btn-sci" onclick="press('Math.PI')">π</button>
             </div>
         </div>
     </div>
 
     <div id="view-algebra" class="view">
         <div class="sheet-grid">
-            <div class="formula-box"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code></div>
-            <div class="formula-box"><h4>Log Rules</h4><code>log(xy) = log x + log y</code></div>
-            <div class="formula-box"><h4>Binomial</h4><code>(a+b)² = a² + 2ab + b²</code></div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Quadratic Formula</h4>
+                <code>x = [-b ± √(b²-4ac)] / 2a</code>
+                <div class="formula-desc">Used to find the roots of a quadratic equation. The term b²-4ac is the discriminant, which determines the number of real solutions.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Logarithm Power Rule</h4>
+                <code>log_b(x^y) = y · log_b(x)</code>
+                <div class="formula-desc">A key property for solving exponential equations by bringing the exponent down as a multiplier.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Slope-Intercept Form</h4>
+                <code>y = mx + b</code>
+                <div class="formula-desc">Defines a straight line where 'm' is the slope (steepness) and 'b' is the y-intercept (where it hits the vertical axis).</div>
+            </div>
         </div>
+        
     </div>
 
     <div id="view-geometry" class="view">
         <div class="sheet-grid">
-            <div class="formula-box" style="border-left-color:var(--green)"><h4>Circle</h4><code>Area = πr²</code></div>
-            <div class="formula-box" style="border-left-color:var(--green)"><h4>Pythagorean</h4><code>a² + b² = c²</code></div>
-            <div class="formula-box" style="border-left-color:var(--green)"><h4>Sphere</h4><code>V = 4/3πr³</code></div>
+            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
+                <h4>Pythagorean Theorem</h4>
+                <code>a² + b² = c²</code>
+                <div class="formula-desc">For any right-angled triangle, the square of the hypotenuse (c) is equal to the sum of the squares of the other two sides.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
+                <h4>Sphere Volume</h4>
+                <code>V = 4/3πr³</code>
+                <div class="formula-desc">Calculates the total 3D space inside a sphere. Requires only the radius 'r' to solve.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
+                <h4>Law of Cosines</h4>
+                <code>c² = a² + b² - 2ab cos(C)</code>
+                <div class="formula-desc">A generalization of the Pythagorean theorem used for finding sides/angles in non-right triangles.</div>
+            </div>
         </div>
         
     </div>
@@ -117,9 +166,10 @@
     <div id="view-grapher" class="view">
         <div class="graph-workspace">
             <div class="graph-controls">
-                <h3 style="color:var(--accent)">Functions</h3>
+                <h3 style="color:var(--accent); margin-top:0;">Function Analysis</h3>
                 <input type="text" id="eq-input" style="width:100%; background:#000; border:1px solid var(--border); color:var(--green); padding:10px; border-radius:8px;" value="Math.sin(x)">
-                <button class="btn" style="width:100%; margin-top:10px;" onclick="drawGraph()">Plot</button>
+                <p style="font-size:11px; color:var(--dim); margin-top:10px;">Try: x*x, Math.cos(x), Math.sqrt(x)</p>
+                <button class="btn" style="width:100%; margin-top:10px; border-color:var(--accent)" onclick="drawGraph()">Update Plot</button>
             </div>
             <canvas id="graphCanvas"></canvas>
         </div>
@@ -127,13 +177,13 @@
     </div>
 
     <div id="view-games" class="view">
-        <div class="game-grid" id="game-grid"></div>
+        <div id="game-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:20px; width:100%; max-width:1000px;"></div>
     </div>
 
     <div id="player">
-        <div style="background:#1e293b; padding:10px; display:flex; gap:20px;">
-            <button class="btn" style="padding:5px 15px;" onclick="closePlayer()">Exit</button>
-            <span id="playing-title" style="align-self:center">Loading Resource...</span>
+        <div style="background:#1e293b; padding:10px; display:flex; gap:20px; border-bottom:1px solid var(--border);">
+            <button class="btn" style="padding:4px 12px; font-size:12px;" onclick="closePlayer()">CLOSE ESC</button>
+            <span id="playing-title" style="align-self:center; font-size:13px; color:var(--dim)">Resource Viewer</span>
         </div>
         <iframe id="game-frame"></iframe>
     </div>
@@ -147,40 +197,49 @@
         ];
 
         let exp = "";
-        function press(v) { exp += v; document.getElementById('res-field').textContent = exp; }
-        function clr() { exp = ""; document.getElementById('res-field').textContent = "0"; }
+        const res = document.getElementById('res-field');
+        const exf = document.getElementById('exp-field');
+
+        function press(v) { exp += v; res.textContent = exp; }
+        function clr() { exp = ""; res.textContent = "0"; exf.textContent = ""; }
         function solve() {
             if (document.getElementById('secret-trigger').checked && exp === "8290") { changeView('games'); clr(); return; }
-            try { exp = eval(exp).toString(); document.getElementById('res-field').textContent = exp; } 
-            catch { document.getElementById('res-field').textContent = "Error"; }
+            try { exf.textContent = exp + " ="; exp = eval(exp.replace('Math.PI', Math.PI)).toString(); res.textContent = exp; } 
+            catch { res.textContent = "Error"; }
         }
         function sci(type) {
             let v = parseFloat(exp) || 0;
             if (type === 'sin') exp = Math.sin(v * Math.PI / 180).toFixed(4);
+            if (type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
+            if (type === 'tan') exp = Math.tan(v * Math.PI / 180).toFixed(4);
             if (type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
-            document.getElementById('res-field').textContent = exp;
+            if (type === 'log') exp = Math.log10(v).toFixed(4);
+            res.textContent = exp;
         }
 
         function changeView(v) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + v).classList.add('active');
-            if (v === 'grapher') setTimeout(drawGraph, 100);
+            if (v === 'grapher') setTimeout(drawGraph, 50);
             if (v === 'games') renderGames();
         }
 
         function drawGraph() {
             const c = document.getElementById('graphCanvas'); const ctx = c.getContext('2d');
             c.width = c.clientWidth; c.height = c.clientHeight;
-            ctx.strokeStyle = '#334155'; ctx.beginPath();
-            for(let i=0; i<c.width; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,c.height); }
-            for(let i=0; i<c.height; i+=40) { ctx.moveTo(0,i); ctx.lineTo(c.width,i); }
+            const midX = c.width/2; const midY = c.height/2; const zoom = 40;
+            ctx.strokeStyle = '#1e293b'; ctx.beginPath();
+            for(let i=0; i<c.width; i+=zoom) { ctx.moveTo(i,0); ctx.lineTo(i,c.height); }
+            for(let i=0; i<c.height; i+=zoom) { ctx.moveTo(0,i); ctx.lineTo(c.width,i); }
             ctx.stroke();
-            ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 3; ctx.beginPath();
-            for(let screenX=0; screenX<c.width; screenX++) {
-                let x = (screenX - c.width/2)/40;
-                let y = eval(document.getElementById('eq-input').value);
-                let screenY = c.height/2 - (y * 40);
-                if(screenX===0) ctx.moveTo(screenX, screenY); else ctx.lineTo(screenX, screenY);
+            ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2; ctx.beginPath();
+            for(let sx=0; sx<c.width; sx++) {
+                let x = (sx - midX)/zoom;
+                try {
+                    let y = eval(document.getElementById('eq-input').value);
+                    let sy = midY - (y * zoom);
+                    if(sx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+                } catch(e){}
             }
             ctx.stroke();
         }
