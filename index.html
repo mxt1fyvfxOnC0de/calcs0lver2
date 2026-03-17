@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcSolver Clone - Free Online Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CalcSolver<span>+</span></h1>
+            <div class="mode-switch">
+                <span>Calc Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="modeToggle">
+                    <span class="slider"></span>
+                </label>
+                <span>Code Mode</span>
+            </div>
+        </header>
 
+        <main class="calculator">
+            <div class="display">
+                <div id="previous-operand"></div>
+                <div id="current-operand">0</div>
+            </div>
+            
+            <div class="keypad">
+                <button class="btn sci" onclick="appendFunction('sin')">sin</button>
+                <button class="btn sci" onclick="appendFunction('cos')">cos</button>
+                <button class="btn sci" onclick="appendFunction('tan')">tan</button>
+                <button class="btn sci" onclick="appendFunction('log')">log</button>
+                
+                <button class="btn sci" onclick="appendFunction('ln')">ln</button>
+                <button class="btn sci" onclick="appendOperator('**')">x<sup>y</sup></button>
+                <button class="btn sci" onclick="appendConstant('Math.PI')">π</button>
+                <button class="btn sci" onclick="appendConstant('Math.E')">e</button>
+
+                <button class="btn clear" onclick="clearDisplay()">C</button>
+                <button class="btn sci" onclick="appendFunction('sqrt')">√</button>
+                <button class="btn operator" onclick="appendOperator('/')">÷</button>
+                <button class="btn operator" onclick="appendOperator('*')">×</button>
+
+                <button class="btn" onclick="appendNumber('7')">7</button>
+                <button class="btn" onclick="appendNumber('8')">8</button>
+                <button class="btn" onclick="appendNumber('9')">9</button>
+                <button class="btn operator" onclick="appendOperator('-')">−</button>
+
+                <button class="btn" onclick="appendNumber('4')">4</button>
+                <button class="btn" onclick="appendNumber('5')">5</button>
+                <button class="btn" onclick="appendNumber('6')">6</button>
+                <button class="btn operator" onclick="appendOperator('+')">+</button>
+
+                <button class="btn" onclick="appendNumber('1')">1</button>
+                <button class="btn" onclick="appendNumber('2')">2</button>
+                <button class="btn" onclick="appendNumber('3')">3</button>
+                <button class="btn equal" onclick="compute()">=</button>
+
+                <button class="btn wide" onclick="appendNumber('0')">0</button>
+                <button class="btn" onclick="appendNumber('.')">.</button>
+            </div>
+        </main>
+
+        <section class="info">
+            <h2>Fast. Accurate. No Setup.</h2>
+            <p>CalcSolver+ runs directly in your browser. Use it for Algebra, Physics, and Calculus.</p>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
