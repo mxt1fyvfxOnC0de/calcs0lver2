@@ -32,39 +32,35 @@
         .btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 14px; color: var(--text); cursor: pointer; font-size: 17px; font-weight: 600; transition: 0.2s; outline: none; }
         .btn:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
+        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
+        .formula-box { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; position: relative; }
+        .formula-box:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .formula-box h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 18px; }
+        .formula-box code { display: block; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 15px; color: var(--green); }
+        .formula-desc { display: none; margin-top: 15px; font-size: 13px; color: var(--dim); border-top: 1px solid var(--border); padding-top: 15px; line-height: 1.6; }
+        .formula-box.open .formula-desc { display: block; }
+
         .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
         .game-card { background: var(--card); border-radius: 18px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
         .game-card:hover { transform: scale(1.05); border-color: var(--green); }
         .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
 
         .casino-header { color: var(--gold); font-size: 32px; font-weight: 900; letter-spacing: 8px; margin-bottom: 10px; height: 40px; }
-        .typewriter { border-right: 3px solid var(--gold); white-space: nowrap; overflow: hidden; width: 0; }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink { 50% { border-color: transparent } }
-        
-        .balance-display { color: var(--green); font-size: 24px; font-weight: bold; margin-bottom: 20px; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
-        .bet-input { background: #000; border: 2px solid var(--gold); color: var(--gold); padding: 10px; border-radius: 10px; width: 100px; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.2); }
+        .balance-display { color: var(--green); font-size: 24px; font-weight: bold; margin-bottom: 20px; font-family: 'Courier New', monospace; }
+        .bet-input { background: #000; border: 2px solid var(--gold); color: var(--gold); padding: 10px; border-radius: 10px; width: 100px; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
         
         .ring-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; }
-        .casino-card { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 30px; border-radius: 24px; border: 1px solid var(--border); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; position: relative; overflow: hidden; }
-        .casino-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold); opacity: 0; transition: 0.3s; }
-        .casino-card:hover { border-color: var(--gold); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 15px rgba(250, 204, 21, 0.1); }
-        .casino-card:hover::before { opacity: 1; }
+        .casino-card { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 30px; border-radius: 24px; border: 1px solid var(--border); transition: 0.4s; text-align: center; position: relative; }
+        .casino-card:hover { border-color: var(--gold); transform: translateY(-10px); }
         
-        .slot-display { font-size: 50px; background: #020617; padding: 20px; border-radius: 15px; letter-spacing: 12px; margin: 20px 0; border: 1px solid var(--gold); box-shadow: 0 0 20px rgba(250, 204, 21, 0.1); }
+        .slot-display { font-size: 50px; background: #020617; padding: 20px; border-radius: 15px; letter-spacing: 12px; margin: 20px 0; border: 1px solid var(--gold); }
         .card-display { font-family: monospace; font-size: 16px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; min-height: 50px; margin: 15px 0; display: flex; justify-content: center; gap: 8px; }
-        .playing-card { background: #fff; color: #000; padding: 6px 12px; border-radius: 6px; font-weight: 900; border: 1px solid #ddd; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+        .playing-card { background: #fff; color: #000; padding: 6px 12px; border-radius: 6px; font-weight: 900; border: 1px solid #ddd; }
 
         #settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .settings-card { background: var(--bg); border: 1px solid var(--border); padding: 35px; border-radius: 30px; width: 320px; }
         .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(20px); }
-
+        
         #bust-cutscene { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .laugh-emoji { font-size: 120px; margin-bottom: 20px; animation: shake 0.5s infinite; }
         .bust-text { color: var(--gold); font-size: 28px; font-weight: 900; max-width: 80%; line-height: 1.4; }
@@ -89,9 +85,9 @@
     <div id="settings-overlay" onclick="closeSettings(event)">
         <div class="settings-card" onclick="event.stopPropagation()">
             <h2 style="margin-top:0">System Config</h2>
-            <div class="setting-item"><span>Dark Mode</span><label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider"></span></label></div>
-            <div class="setting-item"><span>Data Override</span><label class="switch"><input type="checkbox" id="secret-trigger"><span class="slider"></span></label></div>
-            <div class="setting-item"><span>Scientific Functions</span><label class="switch"><input type="checkbox" id="gl-trigger"><span class="slider"></span></label></div>
+            <div class="setting-item"><span>Dark Mode</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" checked onchange="toggleTheme()" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
+            <div class="setting-item"><span>Data Override</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" id="secret-trigger" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
+            <div class="setting-item"><span>Scientific Functions</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" id="gl-trigger" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
             <button class="btn" style="width: 100%; margin-top: 10px;" onclick="document.getElementById('settings-overlay').style.display='none'">Apply Settings</button>
         </div>
     </div>
@@ -117,13 +113,47 @@
     </div>
 
     <div id="view-algebra" class="view">
-        <div class="sheet-grid"><div class="formula-box" onclick="this.classList.toggle('open')"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code><div class="formula-desc">Essential for finding real and complex roots of parabolic functions.</div></div></div>
-        
+        <div class="sheet-grid">
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Quadratic Expansion</h4>
+                <code>f(x) = ax² + bx + c</code>
+                
+                <div class="formula-desc">The standard form of a quadratic equation. The discriminant (Δ = b² - 4ac) determines if the function has real or complex roots. This is fundamental for modeling motion under constant acceleration in kinematics.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Logarithmic Identities</h4>
+                <code>log_b(xy) = log_b(x) + log_b(y)</code>
+                <div class="formula-desc">A critical property of logarithms used in data compression and computational complexity analysis. These identities allow for the conversion of multiplication into addition, simplifying exponential calculations.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Binomial Expansion</h4>
+                <code>(x + y)ⁿ = Σ (ⁿₖ) xⁿ⁻ᵏ yᵏ</code>
+                <div class="formula-desc">The theorem describing the algebraic expansion of powers of a binomial. Used extensively in probability theory and statistical distributions to calculate the outcome of independent trials.</div>
+            </div>
+        </div>
     </div>
+
     <div id="view-geometry" class="view">
-        <div class="sheet-grid"><div class="formula-box" onclick="this.classList.toggle('open')"><h4>Pythagorean Theorem</h4><code>a² + b² = c²</code><div class="formula-desc">The primary relation for Euclidean distance in right-angled geometry.</div></div></div>
-        
+        <div class="sheet-grid">
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Pythagorean Theorem</h4>
+                <code>a² + b² = c²</code>
+                
+                <div class="formula-desc">In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides. This provides the basis for Euclidean distance calculations in coordinate geometry.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Euler's Polyhedron Formula</h4>
+                <code>V - E + F = 2</code>
+                <div class="formula-desc">Relates the number of vertices (V), edges (E), and faces (F) for any convex polyhedron. This topological invariant is essential for validating the manifold consistency of 3D meshes in computer graphics.</div>
+            </div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Volume of a Sphere</h4>
+                <code>V = (4/3)πr³</code>
+                <div class="formula-desc">Calculates the total three-dimensional space enclosed by a spherical surface. Derived through calculus via the integration of thin circular disks along the radius of the object.</div>
+            </div>
+        </div>
     </div>
+
     <div id="view-notes" class="view"><textarea id="notes-area" placeholder="Enter proof data..."></textarea></div>
     <div id="view-games" class="view"><div class="game-grid" id="game-grid"></div></div>
 
@@ -131,38 +161,14 @@
         <div id="typewriter-container" class="casino-header"></div>
         <div class="balance-display" id="bal-txt">CASH: $50.00</div>
         <input type="number" id="bet-amt" class="bet-input" value="10" min="1">
-
         <div class="ring-grid">
-            <div class="casino-card">
-                <h3>SLOTS</h3>
-                <div class="slot-display" id="slot-res">🎰🎰🎰</div>
-                <button class="btn" style="width:100%; color:var(--gold)" onclick="playSlots()">PULL LEVER</button>
-            </div>
-            <div class="casino-card">
-                <h3>BLACKJACK</h3>
-                <div id="bj-dealer" class="card-display">Dealer: ??</div>
-                <div id="bj-player" class="card-display">You: ??</div>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn" style="flex:1" id="bj-hit" onclick="bjHit()" disabled>HIT</button>
-                    <button class="btn" style="flex:1" id="bj-stand" onclick="bjStand()" disabled>STAND</button>
-                </div>
-                <button class="btn" style="width:100%; margin-top:10px; background:rgba(250,204,21,0.1)" onclick="bjStart()">DEAL CARDS</button>
-            </div>
-            <div class="casino-card">
-                <h3>BS or NO BS</h3>
-                <div id="bs-display" class="slot-display" style="font-size: 32px;">?</div>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn" style="flex:1" onclick="playBS(true)">NO BS (7+)</button>
-                    <button class="btn" style="flex:1" onclick="playBS(false)">BS (1-6)</button>
-                </div>
-            </div>
+            <div class="casino-card"><h3>SLOTS</h3><div class="slot-display" id="slot-res">🎰🎰🎰</div><button class="btn" style="width:100%; color:var(--gold)" onclick="playSlots()">PULL LEVER</button></div>
+            <div class="casino-card"><h3>BLACKJACK</h3><div id="bj-dealer" class="card-display">Dealer: ??</div><div id="bj-player" class="card-display">You: ??</div><div style="display:flex; gap:10px;"><button class="btn" style="flex:1" id="bj-hit" onclick="bjHit()" disabled>HIT</button><button class="btn" style="flex:1" id="bj-stand" onclick="bjStand()" disabled>STAND</button></div><button class="btn" style="width:100%; margin-top:10px; background:rgba(250,204,21,0.1)" onclick="bjStart()">DEAL CARDS</button></div>
+            <div class="casino-card"><h3>BS or NO BS</h3><div id="bs-display" class="slot-display" style="font-size: 32px;">?</div><div style="display:flex; gap:10px;"><button class="btn" style="flex:1" onclick="playBS(true)">NO BS (7+)</button><button class="btn" style="flex:1" onclick="playBS(false)">BS (1-6)</button></div></div>
         </div>
     </div>
 
-    <div id="player">
-        <div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;"><span style="color:var(--dim)">MODULE_ACTIVE</span><button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">ESC</button></div>
-        <iframe id="game-frame"></iframe>
-    </div>
+    <div id="player"><div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;"><span style="color:var(--dim)">MODULE_ACTIVE</span><button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">ESC</button></div><iframe id="game-frame"></iframe></div>
 
     <script>
         const GAMES = [
@@ -170,18 +176,10 @@
             {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://play-lh.googleusercontent.com/9P_I7A_K6H_C0J1A9B_I7A_"},
             {"name": "1v1.LOL", "url": "https://geet.in.net/get/1v1-lol/game.html", "img": "https://play-lh.googleusercontent.com/8_C0J1A9B_I7A_K6H_"}
         ];
-
-        let balance = 50.00;
-        let exp = "";
-        const res = document.getElementById('res-field');
-
-        function updateBal() { 
-            document.getElementById('bal-txt').textContent = `CASH: $${balance.toFixed(2)}`;
-            if(balance <= 0) document.getElementById('bust-cutscene').style.display = 'flex';
-        }
+        let balance = 50.00; let exp = ""; const res = document.getElementById('res-field');
+        function updateBal() { document.getElementById('bal-txt').textContent = `CASH: $${balance.toFixed(2)}`; if(balance <= 0) document.getElementById('bust-cutscene').style.display = 'flex'; }
         function resetDebt() { balance = 50; updateBal(); document.getElementById('bust-cutscene').style.display='none'; changeView('calculator'); }
         function getBet() { return parseFloat(document.getElementById('bet-amt').value); }
-
         function press(v) { exp += v; res.textContent = exp; }
         function clr() { exp = ""; res.textContent = "0"; }
         function solve() {
@@ -189,32 +187,14 @@
             if (document.getElementById('gl-trigger').checked && exp === "0000") { changeView('ring'); startTypewriter(); clr(); return; }
             try { res.textContent = eval(exp); exp = res.textContent; } catch { res.textContent = "Error"; }
         }
-
         function startTypewriter() {
-            const container = document.getElementById('typewriter-container');
-            const text = "THE RING";
-            container.textContent = "";
-            let i = 0;
-            const interval = setInterval(() => {
-                container.textContent += text[i];
-                i++;
-                if(i >= text.length) {
-                    clearInterval(interval);
-                    setTimeout(() => container.style.opacity = '0.3', 2000);
-                }
-            }, 150);
+            const c = document.getElementById('typewriter-container'); const t = "THE RING"; c.textContent = ""; let i = 0;
+            const iv = setInterval(() => { c.textContent += t[i]; i++; if(i >= t.length) { clearInterval(iv); setTimeout(() => c.style.opacity = '0.3', 2000); } }, 150);
         }
-
-        function changeView(v) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById('view-' + v).classList.add('active');
-            if(v==='games') renderGames();
-        }
-
+        function changeView(v) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById('view-' + v).classList.add('active'); if(v==='games') renderGames(); }
         function openSettings() { document.getElementById('settings-overlay').style.display='flex'; }
         function closeSettings(e) { if(e.target.id==='settings-overlay') e.target.style.display='none'; }
         function toggleTheme() { document.body.classList.toggle('light-mode'); }
-
         function renderGames() {
             const grid = document.getElementById('game-grid'); grid.innerHTML = "";
             GAMES.forEach(g => {
@@ -224,60 +204,15 @@
                 grid.appendChild(div);
             });
         }
-
-        function playSlots() {
-            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
-            balance -= bet;
-            const icons = ['🍒','🔔','💎','7️⃣','🍋'];
-            const r = [icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)]];
-            document.getElementById('slot-res').textContent = r.join('');
-            if(r[0]===r[1] && r[1]===r[2]) { balance += bet * 12; }
-            updateBal();
-        }
-
-        function playBS(high) {
-            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
-            balance -= bet;
-            const val = Math.floor(Math.random()*13) + 1;
-            document.getElementById('bs-display').textContent = val;
-            const won = (high && val >= 7) || (!high && val < 7);
-            if(won) balance += bet * 2;
-            updateBal();
-        }
-
+        function playSlots() { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; const i = ['🍒','🔔','💎','7️⃣','🍋']; const r = [i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)]]; document.getElementById('slot-res').textContent = r.join(''); if(r[0]===r[1] && r[1]===r[2]) balance += b * 12; updateBal(); }
+        function playBS(h) { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; const v = Math.floor(Math.random()*13) + 1; document.getElementById('bs-display').textContent = v; const won = (h && v >= 7) || (!h && v < 7); if(won) balance += b * 2; updateBal(); }
         let pHand = [], dHand = [];
-        function bjStart() {
-            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
-            balance -= bet; updateBal();
-            pHand = [drawCard(), drawCard()]; dHand = [drawCard()];
-            document.getElementById('bj-hit').disabled = false;
-            document.getElementById('bj-stand').disabled = false;
-            renderBJ();
-        }
+        function bjStart() { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; updateBal(); pHand = [drawCard(), drawCard()]; dHand = [drawCard()]; document.getElementById('bj-hit').disabled = false; document.getElementById('bj-stand').disabled = false; renderBJ(); }
         function drawCard() { return Math.floor(Math.random()*10) + 1; }
-        function renderBJ() {
-            const pDiv = document.getElementById('bj-player'); pDiv.innerHTML = "You: ";
-            pHand.forEach(c => pDiv.innerHTML += `<span class="playing-card">${c}</span>`);
-            const dDiv = document.getElementById('bj-dealer'); dDiv.innerHTML = "Dealer: ";
-            dHand.forEach(c => dDiv.innerHTML += `<span class="playing-card">${c}</span>`);
-        }
-        function bjHit() {
-            pHand.push(drawCard()); renderBJ();
-            if(pHand.reduce((a,b)=>a+b) > 21) bjEnd(false);
-        }
-        function bjStand() {
-            while(dHand.reduce((a,b)=>a+b) < 17) dHand.push(drawCard());
-            renderBJ();
-            let pS = pHand.reduce((a,b)=>a+b), dS = dHand.reduce((a,b)=>a+b);
-            bjEnd(dS > 21 || pS > dS);
-        }
-        function bjEnd(won) {
-            if(won) balance += getBet() * 2;
-            document.getElementById('bj-hit').disabled = true;
-            document.getElementById('bj-stand').disabled = true;
-            updateBal();
-        }
-
+        function renderBJ() { const pDiv = document.getElementById('bj-player'); pDiv.innerHTML = "You: "; pHand.forEach(c => pDiv.innerHTML += `<span class="playing-card">${c}</span>`); const dDiv = document.getElementById('bj-dealer'); dDiv.innerHTML = "Dealer: "; dHand.forEach(c => dDiv.innerHTML += `<span class="playing-card">${c}</span>`); }
+        function bjHit() { pHand.push(drawCard()); renderBJ(); if(pHand.reduce((a,b)=>a+b) > 21) bjEnd(false); }
+        function bjStand() { while(dHand.reduce((a,b)=>a+b) < 17) dHand.push(drawCard()); renderBJ(); let pS = pHand.reduce((a,b)=>a+b), dS = dHand.reduce((a,b)=>a+b); bjEnd(dS > 21 || pS > dS); }
+        function bjEnd(won) { if(won) balance += getBet() * 2; document.getElementById('bj-hit').disabled = true; document.getElementById('bj-stand').disabled = true; updateBal(); }
         function closePlayer() { document.getElementById('player').style.display='none'; document.getElementById('game-frame').src=''; }
         document.addEventListener('keydown', e => { if(e.key === 'Escape') closePlayer(); });
     </script>
