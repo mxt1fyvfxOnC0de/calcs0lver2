@@ -33,7 +33,7 @@
         .btn:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
         .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
-        .formula-box { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; position: relative; }
+        .formula-box { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
         .formula-box:hover { border-color: var(--accent); transform: translateY(-5px); }
         .formula-box h4 { margin: 0 0 10px 0; color: var(--accent); font-size: 18px; }
         .formula-box code { display: block; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 15px; color: var(--green); }
@@ -61,6 +61,14 @@
         .settings-card { background: var(--bg); border: 1px solid var(--border); padding: 35px; border-radius: 30px; width: 320px; }
         .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         
+        /* Fixed Settings Switches */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
         #bust-cutscene { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .laugh-emoji { font-size: 120px; margin-bottom: 20px; animation: shake 0.5s infinite; }
         .bust-text { color: var(--gold); font-size: 28px; font-weight: 900; max-width: 80%; line-height: 1.4; }
@@ -85,9 +93,9 @@
     <div id="settings-overlay" onclick="closeSettings(event)">
         <div class="settings-card" onclick="event.stopPropagation()">
             <h2 style="margin-top:0">System Config</h2>
-            <div class="setting-item"><span>Dark Mode</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" checked onchange="toggleTheme()" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
-            <div class="setting-item"><span>Data Override</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" id="secret-trigger" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
-            <div class="setting-item"><span>Scientific Functions</span><label class="switch" style="position:relative; display:inline-block; width:44px; height:24px;"><input type="checkbox" id="gl-trigger" style="opacity:0; width:0; height:0;"><span class="slider" style="position:absolute; cursor:pointer; inset:0; background-color:#334155; transition:.4s; border-radius:34px;"></span></label></div>
+            <div class="setting-item"><span>Light Mode</span><label class="switch"><input type="checkbox" onchange="toggleTheme()"><span class="slider"></span></label></div>
+            <div class="setting-item"><span>Data Override</span><label class="switch"><input type="checkbox" id="secret-trigger"><span class="slider"></span></label></div>
+            <div class="setting-item"><span>Scientific Functions</span><label class="switch"><input type="checkbox" id="gl-trigger"><span class="slider"></span></label></div>
             <button class="btn" style="width: 100%; margin-top: 10px;" onclick="document.getElementById('settings-overlay').style.display='none'">Apply Settings</button>
         </div>
     </div>
@@ -118,17 +126,12 @@
                 <h4>Quadratic Expansion</h4>
                 <code>f(x) = ax² + bx + c</code>
                 
-                <div class="formula-desc">The standard form of a quadratic equation. The discriminant (Δ = b² - 4ac) determines if the function has real or complex roots. This is fundamental for modeling motion under constant acceleration in kinematics.</div>
+                <div class="formula-desc">The standard form of a quadratic equation. The discriminant (Δ = b² - 4ac) determines the nature of the roots. Essential for modeling projectile motion in physics.</div>
             </div>
             <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Logarithmic Identities</h4>
-                <code>log_b(xy) = log_b(x) + log_b(y)</code>
-                <div class="formula-desc">A critical property of logarithms used in data compression and computational complexity analysis. These identities allow for the conversion of multiplication into addition, simplifying exponential calculations.</div>
-            </div>
-            <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Binomial Expansion</h4>
-                <code>(x + y)ⁿ = Σ (ⁿₖ) xⁿ⁻ᵏ yᵏ</code>
-                <div class="formula-desc">The theorem describing the algebraic expansion of powers of a binomial. Used extensively in probability theory and statistical distributions to calculate the outcome of independent trials.</div>
+                <h4>Logarithmic Rules</h4>
+                <code>log_b(x) + log_b(y) = log_b(xy)</code>
+                <div class="formula-desc">Used to simplify exponential growth models and solve complex power-based equations. These rules form the basis for logarithmic scales like decibels and pH.</div>
             </div>
         </div>
     </div>
@@ -136,20 +139,15 @@
     <div id="view-geometry" class="view">
         <div class="sheet-grid">
             <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Pythagorean Theorem</h4>
+                <h4>Pythagorean Identity</h4>
                 <code>a² + b² = c²</code>
                 
-                <div class="formula-desc">In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides. This provides the basis for Euclidean distance calculations in coordinate geometry.</div>
+                <div class="formula-desc">Relates the squares of the sides of a right-angled triangle. This is the cornerstone of trigonometry and Cartesian geometry.</div>
             </div>
             <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Euler's Polyhedron Formula</h4>
-                <code>V - E + F = 2</code>
-                <div class="formula-desc">Relates the number of vertices (V), edges (E), and faces (F) for any convex polyhedron. This topological invariant is essential for validating the manifold consistency of 3D meshes in computer graphics.</div>
-            </div>
-            <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Volume of a Sphere</h4>
-                <code>V = (4/3)πr³</code>
-                <div class="formula-desc">Calculates the total three-dimensional space enclosed by a spherical surface. Derived through calculus via the integration of thin circular disks along the radius of the object.</div>
+                <h4>Surface Area of a Cylinder</h4>
+                <code>A = 2πrh + 2πr²</code>
+                <div class="formula-desc">Calculates the total external area of a cylinder including the lateral surface and the two circular bases.</div>
             </div>
         </div>
     </div>
@@ -204,10 +202,10 @@
                 grid.appendChild(div);
             });
         }
-        function playSlots() { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; const i = ['🍒','🔔','💎','7️⃣','🍋']; const r = [i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)]]; document.getElementById('slot-res').textContent = r.join(''); if(r[0]===r[1] && r[1]===r[2]) balance += b * 12; updateBal(); }
-        function playBS(h) { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; const v = Math.floor(Math.random()*13) + 1; document.getElementById('bs-display').textContent = v; const won = (h && v >= 7) || (!h && v < 7); if(won) balance += b * 2; updateBal(); }
+        function playSlots() { let b = getBet(); if(b > balance) return; balance -= b; const i = ['🍒','🔔','💎','7️⃣','🍋']; const r = [i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)], i[Math.floor(Math.random()*5)]]; document.getElementById('slot-res').textContent = r.join(''); if(r[0]===r[1] && r[1]===r[2]) balance += b * 12; updateBal(); }
+        function playBS(h) { let b = getBet(); if(b > balance) return; balance -= b; const v = Math.floor(Math.random()*13) + 1; document.getElementById('bs-display').textContent = v; const won = (h && v >= 7) || (!h && v < 7); if(won) balance += b * 2; updateBal(); }
         let pHand = [], dHand = [];
-        function bjStart() { let b = getBet(); if(b > balance) return alert("Insufficient Funds"); balance -= b; updateBal(); pHand = [drawCard(), drawCard()]; dHand = [drawCard()]; document.getElementById('bj-hit').disabled = false; document.getElementById('bj-stand').disabled = false; renderBJ(); }
+        function bjStart() { let b = getBet(); if(b > balance) return; balance -= b; updateBal(); pHand = [drawCard(), drawCard()]; dHand = [drawCard()]; document.getElementById('bj-hit').disabled = false; document.getElementById('bj-stand').disabled = false; renderBJ(); }
         function drawCard() { return Math.floor(Math.random()*10) + 1; }
         function renderBJ() { const pDiv = document.getElementById('bj-player'); pDiv.innerHTML = "You: "; pHand.forEach(c => pDiv.innerHTML += `<span class="playing-card">${c}</span>`); const dDiv = document.getElementById('bj-dealer'); dDiv.innerHTML = "Dealer: "; dHand.forEach(c => dDiv.innerHTML += `<span class="playing-card">${c}</span>`); }
         function bjHit() { pHand.push(drawCard()); renderBJ(); if(pHand.reduce((a,b)=>a+b) > 21) bjEnd(false); }
