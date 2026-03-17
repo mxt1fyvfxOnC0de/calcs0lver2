@@ -15,7 +15,7 @@
             --btn-red: #e74c3c;
             --accent-green: #2ecc71;
             --text-light: #ffffff;
-            --arcade-bg: #111827;
+            --arcade-bg: #0f172a;
         }
 
         body {
@@ -26,163 +26,154 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- Top Navigation Bar --- */
+        /* --- Nav Bar --- */
         .top-nav {
             width: 100%;
-            background: #1f2937;
+            background: #1e293b;
             padding: 12px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            gap: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 10;
         }
 
         .top-nav a {
-            color: #9ca3af;
+            color: #94a3b8;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             transition: 0.3s;
         }
 
-        .top-nav a:hover { color: var(--text-light); }
+        .top-nav a:hover { color: var(--accent-green); }
 
-        /* --- Calculator Section --- */
+        /* --- Calculator --- */
         #calc-view {
-            margin-top: 50px;
+            margin-top: 60px;
             background-color: var(--calc-bg);
             padding: 25px;
-            border-radius: 15px;
-            width: 380px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border: 1px solid #4b5563;
+            border-radius: 20px;
+            width: 360px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .mode-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
-            margin-bottom: 20px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
         }
 
-        /* --- Green Switch Styling --- */
-        .switch { position: relative; display: inline-block; width: 54px; height: 28px; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { 
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
-            background-color: #4b5563; transition: .4s; border-radius: 34px; 
-        }
-        .slider:before { 
-            position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; 
-            background-color: white; transition: .4s; border-radius: 50%; 
-        }
-        input:checked + .slider { 
-            background-color: var(--accent-green); 
-            box-shadow: 0 0 15px var(--accent-green);
-        }
-        input:checked + .slider:before { transform: translateX(26px); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
         .display-screen {
             background-color: var(--display-bg);
-            height: 90px;
-            border-radius: 8px;
+            height: 80px;
+            border-radius: 12px;
             margin-bottom: 20px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: flex-end;
+            justify-content: flex-end;
             padding: 15px;
-            color: #1a1a1a;
-            font-size: 2.5rem;
+            color: #1e293b;
+            font-size: 2.8rem;
             font-family: 'Courier New', monospace;
-            border: 4px solid #2d3748;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+            border: 4px solid #1e293b;
         }
 
         .keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .sci-row { grid-column: span 4; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 5px; }
 
         .btn {
             border: none;
-            border-radius: 8px;
-            padding: 15px 0;
-            font-size: 1.1rem;
+            border-radius: 10px;
+            padding: 18px 0;
+            font-size: 1.2rem;
             color: white;
             cursor: pointer;
             background-color: var(--btn-gray);
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 0 #2d3748;
+            transition: all 0.1s;
+            box-shadow: 0 4px 0 #1e293b;
         }
 
-        .btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
-        .btn:active { transform: translateY(2px); box-shadow: 0 0 0 #2d3748; }
-        .btn-sci { font-size: 0.8rem; padding: 10px 0; background: #374151; }
-        .btn-orange { background-color: var(--btn-orange); box-shadow: 0 4px 0 #a04a00; }
-        .btn-red { background-color: var(--btn-red); box-shadow: 0 4px 0 #922b21; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn:active { transform: translateY(2px); box-shadow: none; }
+        .btn-orange { background-color: var(--btn-orange); box-shadow: 0 4px 0 #874a16; }
+        .btn-red { background-color: var(--btn-red); box-shadow: 0 4px 0 #7b2a1f; }
         .btn-wide { grid-column: span 2; }
 
-        /* --- Arcade Styling --- */
+        /* --- Arcade --- */
         #arcade-view {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--arcade-bg);
-            z-index: 9999;
+            z-index: 100;
             overflow-y: auto;
-            padding: 30px;
+            padding: 20px;
         }
 
-        .arcade-header {
+        .arcade-controls {
             max-width: 1200px;
             margin: 0 auto 30px;
             display: flex;
-            justify-content: space-between;
+            gap: 20px;
             align-items: center;
         }
 
-        .search-bar {
-            background: #1f2937;
-            border: 1px solid #374151;
-            padding: 12px 25px;
-            border-radius: 30px;
+        .search-input {
+            flex-grow: 1;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 12px 20px;
+            border-radius: 12px;
             color: white;
-            width: 40%;
             outline: none;
-            transition: 0.3s;
         }
-
-        .search-bar:focus { border-color: var(--accent-green); box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .game-card {
-            background: #1f2937;
-            border-radius: 12px;
+            background: #1e293b;
+            border-radius: 15px;
             overflow: hidden;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            border: 1px solid #374151;
+            transition: 0.3s;
+            border: 1px solid #334155;
+            text-align: center;
         }
 
-        .game-card:hover { transform: scale(1.05); border-color: var(--accent-green); }
-        .game-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
-        .game-card p { padding: 12px; margin: 0; text-align: center; font-size: 0.9rem; font-weight: bold; color: #e5e7eb; }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--accent-green); }
+        .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .game-card p { color: #f1f5f9; font-size: 0.8rem; font-weight: 600; padding: 10px; margin: 0; }
 
-        .exit-btn {
-            background: var(--btn-red);
-            color: white; border: none; padding: 10px 25px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; transition: 0.3s;
+        /* Fullscreen Player */
+        #player-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 200;
         }
-        .exit-btn:hover { background: #c0392b; transform: scale(1.05); }
+        #game-frame { width: 100%; height: calc(100% - 60px); border: none; }
+        .player-nav { height: 60px; background: #1e293b; display: flex; align-items: center; padding: 0 20px; }
     </style>
 </head>
 <body>
@@ -190,135 +181,136 @@
     <nav class="top-nav">
         <a href="#">Algebra</a>
         <a href="#">Geometry</a>
-        <a href="#">Fractions</a>
-        <a href="#">GPA Calc</a>
-        <a href="#">Loan Calc</a>
+        <a href="#">Graphing</a>
+        <a href="#">Unit Conv</a>
+        <a href="#">Settings</a>
     </nav>
 
     <div id="calc-view">
         <div class="mode-header">
-            <span>Scientific Mode</span>
+            <span>Code Mode</span>
             <label class="switch">
                 <input type="checkbox" id="codeMode">
                 <span class="slider"></span>
             </label>
         </div>
-
         <div class="display-screen" id="display">0</div>
-
         <div class="keypad">
-            <div class="sci-row">
-                <button class="btn btn-sci" onclick="sci('sin')">sin</button>
-                <button class="btn btn-sci" onclick="sci('cos')">cos</button>
-                <button class="btn btn-sci" onclick="sci('tan')">tan</button>
-                <button class="btn btn-sci" onclick="sci('log')">log</button>
-                <button class="btn btn-sci" onclick="sci('ln')">ln</button>
-                <button class="btn btn-sci" onclick="press('**')">x^y</button>
-            </div>
-            <button class="btn btn-wide" onclick="sci('pi')">π</button>
-            <button class="btn btn-wide" onclick="sci('e')">e</button>
-
             <button class="btn btn-red" onclick="reset()">C</button>
-            <button class="btn btn-orange" onclick="sci('sqrt')">√</button>
             <button class="btn btn-orange" onclick="press('/')">÷</button>
             <button class="btn btn-orange" onclick="press('*')">×</button>
-
+            <button class="btn btn-orange" onclick="press('-')">−</button>
+            
             <button class="btn" onclick="press('7')">7</button>
             <button class="btn" onclick="press('8')">8</button>
             <button class="btn" onclick="press('9')">9</button>
-            <button class="btn btn-orange" onclick="press('-')">−</button>
-
+            <button class="btn btn-orange" onclick="press('+')">+</button>
+            
             <button class="btn" onclick="press('4')">4</button>
             <button class="btn" onclick="press('5')">5</button>
             <button class="btn" onclick="press('6')">6</button>
-            <button class="btn btn-orange" onclick="press('+')">+</button>
-
+            <button class="btn btn-orange" style="grid-row: span 2;" onclick="calculate()">=</button>
+            
             <button class="btn" onclick="press('1')">1</button>
             <button class="btn" onclick="press('2')">2</button>
             <button class="btn" onclick="press('3')">3</button>
-            <button class="btn btn-orange" style="grid-row: span 2;" onclick="calculate()">=</button>
-
+            
             <button class="btn btn-wide" onclick="press('0')">0</button>
             <button class="btn" onclick="press('.')">.</button>
         </div>
     </div>
 
     <div id="arcade-view">
-        <div class="arcade-header">
-            <input type="text" class="search-bar" id="gameSearch" placeholder="Search for a game..." oninput="drawArcade()">
-            <button class="exit-btn" onclick="closeArcade()">Exit Arcade</button>
+        <div class="arcade-controls">
+            <input type="text" class="search-input" id="search" placeholder="Search for games..." oninput="renderGames()">
+            <button class="btn btn-red" onclick="closeArcade()" style="padding: 10px 20px; box-shadow: none;">Exit</button>
         </div>
         <div class="game-grid" id="game-grid"></div>
     </div>
 
+    <div id="player-overlay">
+        <div class="player-nav">
+            <button class="btn btn-red" onclick="closePlayer()" style="padding: 5px 15px; box-shadow: none;">Back to Arcade</button>
+        </div>
+        <iframe id="game-frame" src=""></iframe>
+    </div>
+
     <script>
+        // MASSIVE GAME DATA
         const GAMES_DATA = [
-            {"code": "1001", "name": "10 Minutes Till Dawn", "iframe": "https://geet.in.net/get/10-minutes-till-dawn/game.html", "thumb": "https://geet.in.net/get/10-minutes-till-dawn/splash.png"},
-            {"code": "1002", "name": "1v1.LOL", "iframe": "https://geet.in.net/get/1v1-lol/game.html", "thumb": "https://geet.in.net/get/1v1-lol/splash.png"},
-            {"code": "1004", "name": "2048", "iframe": "https://geet.in.net/get/2048/game.html", "thumb": "https://geet.in.net/get/2048/thumb.png"},
-            {"code": "1010", "name": "Among Us", "iframe": "https://geet.in.net/get/among-us/game.html", "thumb": "https://geet.in.net/get/among-us/red.png"},
-            {"code": "1051", "name": "Drive Mad", "iframe": "https://geet.in.net/get/drive-mad/game.html", "thumb": "https://geet.in.net/get/drive-mad/logo.jpg"},
-            {"code": "1090", "name": "Retro Bowl", "iframe": "https://geet.in.net/get/retro-bowl/game.html", "thumb": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
-            {"code": "2007", "name": "Subway Surfers", "iframe": "https://geet.in.net/get/subway-surfers/game.html", "thumb": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"}
+            {"name": "1v1.LOL", "iframe": "https://geet.in.net/get/1v1-lol/game.html", "thumb": "https://geet.in.net/get/1v1-lol/splash.png"},
+            {"name": "Subway Surfers", "iframe": "https://geet.in.net/get/subway-surfers/game.html", "thumb": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"},
+            {"name": "Among Us", "iframe": "https://geet.in.net/get/among-us/game.html", "thumb": "https://geet.in.net/get/among-us/red.png"},
+            {"name": "Drive Mad", "iframe": "https://geet.in.net/get/drive-mad/game.html", "thumb": "https://geet.in.net/get/drive-mad/logo.jpg"},
+            {"name": "Retro Bowl", "iframe": "https://geet.in.net/get/retro-bowl/game.html", "thumb": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
+            {"name": "Slope", "iframe": "https://geet.in.net/get/slope/game.html", "thumb": "https://geet.in.net/get/slope/slope4.jpeg"},
+            {"name": "2048", "iframe": "https://geet.in.net/get/2048/game.html", "thumb": "https://geet.in.net/get/2048/thumb.png"},
+            {"name": "Minecraft 1.5", "iframe": "https://geet.in.net/get/minecraft-15/game.html", "thumb": "https://geet.in.net/get/minecraft-15/splash.jpeg"},
+            {"name": "Five Nights at Freddy's", "iframe": "https://geet.in.net/get/fnaf/game.html", "thumb": "https://geet.in.net/get/fnaf/logo.jpg"},
+            {"name": "Geometry Dash", "iframe": "https://geet.in.net/get/geometry-dash/game.html", "thumb": "https://geet.in.net/get/geometry-dash/geoscratchicon.png"},
+            {"name": "Moto X3M", "iframe": "https://geet.in.net/get/motox3m/game.html", "thumb": "https://geet.in.net/get/motox3m/splash.jpg"},
+            {"name": "Tunnel Rush", "iframe": "https://geet.in.net/get/tunnel-rush/game.html", "thumb": "https://geet.in.net/get/tunnel-rush/img/tunnel.jpg"},
+            {"name": "Cookie Clicker", "iframe": "https://geet.in.net/get/cookie-clicker/game.html", "thumb": "https://geet.in.net/get/cookie-clicker/thumb.png"},
+            {"name": "BitLife", "iframe": "https://geet.in.net/get/bl/game.html", "thumb": "https://geet.in.net/get/bl/splash.png"},
+            {"name": "Eaglercraft (MC)", "iframe": "https://geet.in.net/get/eagle-craft/embed.html", "thumb": "https://geet.in.net/get/eagle-craft/logo.jpg"}
+            // You can continue adding your other 100+ items here
         ];
 
-        let exp = "";
-        const disp = document.getElementById('display');
+        let currentExp = "";
+        const display = document.getElementById('display');
 
-        function press(val) {
-            if(exp === "0") exp = "";
-            exp += val;
-            disp.innerText = exp;
+        function press(num) {
+            currentExp += num;
+            display.innerText = currentExp;
         }
 
-        function reset() { exp = "0"; disp.innerText = exp; }
+        function reset() {
+            currentExp = "";
+            display.innerText = "0";
+        }
 
         function calculate() {
             const isCodeMode = document.getElementById('codeMode').checked;
             
-            // THE FIX: Check password BEFORE eval
-            if(isCodeMode && exp === "8290") {
+            // SECRET CODE CHECK
+            if (isCodeMode && currentExp === "8290") {
                 document.getElementById('arcade-view').style.display = 'block';
                 reset();
-                drawArcade();
+                renderGames();
                 return;
             }
 
             try {
-                if (exp === "" || exp === "0") return;
-                exp = eval(exp).toString();
-                disp.innerText = exp;
+                currentExp = eval(currentExp).toString();
+                display.innerText = currentExp;
             } catch {
-                disp.innerText = "Error";
-                exp = "0";
+                display.innerText = "Error";
+                currentExp = "";
             }
         }
 
-        function sci(type) {
-            let v = parseFloat(exp) || 0;
-            if(type === 'sin') exp = Math.sin(v * Math.PI / 180).toFixed(4);
-            else if(type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
-            else if(type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
-            else if(type === 'pi') exp = Math.PI.toFixed(4);
-            else if(type === 'e') exp = Math.E.toFixed(4);
-            disp.innerText = exp;
-        }
-
-        function drawArcade() {
-            const term = document.getElementById('gameSearch').value.toLowerCase();
+        function renderGames() {
+            const term = document.getElementById('search').value.toLowerCase();
             const grid = document.getElementById('game-grid');
             grid.innerHTML = "";
             
             GAMES_DATA.filter(g => g.name.toLowerCase().includes(term)).forEach(g => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.innerHTML = `<img src="${g.thumb}"><p>${g.name}</p>`;
-                card.onclick = () => window.open(g.iframe, '_blank'); 
-                grid.appendChild(card);
+                const div = document.createElement('div');
+                div.className = 'game-card';
+                div.innerHTML = `<img src="${g.thumb}"><p>${g.name}</p>`;
+                div.onclick = () => {
+                    document.getElementById('game-frame').src = g.iframe;
+                    document.getElementById('player-overlay').style.display = 'block';
+                };
+                grid.appendChild(div);
             });
         }
 
         function closeArcade() { document.getElementById('arcade-view').style.display = 'none'; }
+        function closePlayer() { 
+            document.getElementById('player-overlay').style.display = 'none'; 
+            document.getElementById('game-frame').src = "";
+        }
     </script>
 </body>
 </html>
