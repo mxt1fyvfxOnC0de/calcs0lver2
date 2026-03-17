@@ -7,53 +7,70 @@
     <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/s2/favicons?domain=calculator.com">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-red: #ef4444;
-            --text-main: #f8fafc;
+            /* Dark Mode (Default) */
+            --bg: #0f172a;
+            --nav-bg: rgba(15, 23, 42, 0.9);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
             --text-dim: #94a3b8;
+            --accent: #10b981;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --btn-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode {
+            --bg: #f1f5f9;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text: #1e293b;
+            --text-dim: #64748b;
+            --accent: #059669;
+            --orange: #d97706;
+            --red: #dc2626;
+            --btn-bg: #e2e8f0;
+            --border: #cbd5e1;
         }
 
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: #0f172a;
+            background: var(--bg);
             margin: 0;
-            color: var(--text-main);
-            overflow-x: hidden;
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
             min-height: 100vh;
         }
 
         /* --- Views --- */
-        .view { display: none; width: 100%; min-height: 100vh; }
-        .view-active { display: flex; flex-direction: column; align-items: center; }
+        .view { display: none; width: 100%; min-height: 100vh; flex-direction: column; align-items: center; }
+        .view-active { display: flex; }
 
-        /* --- Nav Bar --- */
+        /* --- Top Navigation --- */
         .top-nav {
             width: 100%;
-            background: rgba(15, 23, 42, 0.9);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
+            position: sticky; top: 0; z-index: 100;
         }
-        .top-nav a { color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 500; transition: 0.3s; }
-        .top-nav a:hover { color: var(--accent-green); }
+        .top-nav a, .top-nav span { color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .top-nav a:hover, .top-nav span:hover { color: var(--accent); }
 
         /* --- Calculator --- */
         .calc-card {
-            margin-top: 50px;
-            background: var(--glass);
+            margin-top: 40px;
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             padding: 25px;
             border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            width: 340px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            width: 380px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
         .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -61,230 +78,241 @@
 
         .switch { position: relative; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #334155; transition: .4s; border-radius: 20px; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #64748b; transition: .4s; border-radius: 20px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+        input:checked + .slider { background: var(--accent); }
         input:checked + .slider:before { transform: translateX(20px); }
 
         .screen {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.1);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             text-align: right;
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--border);
         }
-        #calc-expression { font-size: 14px; color: var(--text-dim); height: 18px; margin-bottom: 5px; }
-        #calc-result { font-size: 32px; font-weight: 600; }
+        #calc-exp { font-size: 14px; color: var(--text-dim); min-height: 18px; margin-bottom: 5px; }
+        #calc-res { font-size: 36px; font-weight: 600; overflow-x: auto; }
 
-        .btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .sci-row { grid-column: span 4; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 8px; }
+
         .btn {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
+            background: var(--btn-bg);
+            border: 1px solid var(--border);
             padding: 15px 0;
-            border-radius: 12px;
-            color: white;
-            font-size: 18px;
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.1s;
         }
-        .btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-        .btn-op { color: var(--accent-orange); }
-        .btn-eq { background: var(--accent-orange); border: none; }
-        .btn-red { color: var(--accent-red); }
+        .btn:hover { background: var(--accent); color: white; border-color: transparent; }
+        .btn-sci { font-size: 12px; padding: 10px 0; background: rgba(16, 185, 129, 0.1); color: var(--accent); }
+        .btn-op { color: var(--orange); }
+        .btn-red { color: var(--red); }
+        .btn-eq { background: var(--orange); color: white; border: none; font-weight: bold; }
 
-        /* --- Arcade Grid --- */
-        #view-games { padding: 40px; box-sizing: border-box; }
-        .arcade-tools { width: 100%; max-width: 1000px; display: flex; gap: 20px; margin-bottom: 30px; }
-        .search-in { flex-grow: 1; background: #1e293b; border: 1px solid var(--glass-border); padding: 12px 20px; border-radius: 10px; color: white; outline: none; }
+        /* --- Arcade --- */
+        #view-games { padding: 40px; }
+        .arcade-tools { width: 100%; max-width: 1100px; display: flex; gap: 15px; margin-bottom: 30px; }
+        .search-in { flex-grow: 1; background: var(--card-bg); border: 1px solid var(--border); padding: 12px 20px; border-radius: 12px; color: var(--text); outline: none; }
         
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 25px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
         }
         .game-card {
-            background: #1e293b;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 18px;
             overflow: hidden;
             cursor: pointer;
             transition: 0.3s;
-            border: 1px solid var(--glass-border);
-            text-align: center;
+            border: 1px solid var(--border);
         }
-        .game-card:hover { transform: scale(1.05); border-color: var(--accent-green); }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--accent); }
         .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
-        .game-card div { padding: 10px; font-size: 12px; font-weight: 600; }
+        .game-card div { padding: 12px; text-align: center; font-size: 13px; font-weight: 600; }
 
-        /* --- Player View --- */
-        #view-play { background: #000; flex-direction: column; }
-        .play-nav { width: 100%; height: 50px; background: #1e293b; display: flex; align-items: center; padding: 0 20px; gap: 15px; }
-        #game-iframe { flex-grow: 1; width: 100%; border: none; }
+        /* --- Player --- */
+        #view-play { background: #000; }
+        .p-nav { width: 100%; height: 50px; background: #1e293b; display: flex; align-items: center; padding: 0 20px; gap: 20px; }
+        iframe { flex-grow: 1; width: 100%; border: none; }
+
+        /* --- Settings --- */
+        .modal {
+            display: none;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            padding: 30px; border-radius: 20px; border: 1px solid var(--border);
+            z-index: 1000; width: 300px;
+        }
     </style>
 </head>
 <body>
 
+    <nav class="top-nav">
+        <a href="#">Algebra</a>
+        <a href="#">Geometry</a>
+        <a href="#">Graphs</a>
+        <span onclick="toggleSettings()">Settings</span>
+    </nav>
+
     <div id="view-calculator" class="view view-active">
-        <nav class="top-nav">
-            <a href="#">Algebra</a><a href="#">Geometry</a><a href="#">Graphs</a><a href="#">Finance</a>
-        </nav>
         <div class="calc-card">
             <div class="calc-header">
-                <span>Core Engine v4.2</span>
+                <span>Scientific Engine</span>
                 <label class="switch">
-                    <input type="checkbox" id="mode-toggle">
+                    <input type="checkbox" id="secret-switch">
                     <span class="slider"></span>
                 </label>
             </div>
             <div class="screen">
-                <div id="calc-expression"></div>
-                <div id="calc-result">0</div>
+                <div id="calc-exp"></div>
+                <div id="calc-res">0</div>
             </div>
-            <div class="btn-grid">
-                <button class="btn btn-red" onclick="handleAction('clear')">AC</button>
-                <button class="btn btn-op" onclick="handleAction('divide')">÷</button>
-                <button class="btn btn-op" onclick="handleAction('multiply')">×</button>
-                <button class="btn btn-op" onclick="handleAction('subtract')">−</button>
+            <div class="grid">
+                <div class="sci-row">
+                    <button class="btn btn-sci" onclick="sci('sin')">sin</button>
+                    <button class="btn btn-sci" onclick="sci('cos')">cos</button>
+                    <button class="btn btn-sci" onclick="sci('tan')">tan</button>
+                    <button class="btn btn-sci" onclick="sci('log')">log</button>
+                    <button class="btn btn-sci" onclick="sci('sqrt')">√</button>
+                </div>
+                <button class="btn btn-red" onclick="clr()">AC</button>
+                <button class="btn btn-op" onclick="press('/')">÷</button>
+                <button class="btn btn-op" onclick="press('*')">×</button>
+                <button class="btn btn-op" onclick="press('-')">−</button>
                 
-                <button class="btn" onclick="onDigitPress('7')">7</button>
-                <button class="btn" onclick="onDigitPress('8')">8</button>
-                <button class="btn" onclick="onDigitPress('9')">9</button>
-                <button class="btn btn-op" onclick="handleAction('add')">+</button>
+                <button class="btn" onclick="press('7')">7</button>
+                <button class="btn" onclick="press('8')">8</button>
+                <button class="btn" onclick="press('9')">9</button>
+                <button class="btn btn-op" onclick="press('+')">+</button>
                 
-                <button class="btn" onclick="onDigitPress('4')">4</button>
-                <button class="btn" onclick="onDigitPress('5')">5</button>
-                <button class="btn" onclick="onDigitPress('6')">6</button>
-                <button class="btn btn-eq" style="grid-row: span 2" onclick="handleAction('equals')">=</button>
+                <button class="btn" onclick="press('4')">4</button>
+                <button class="btn" onclick="press('5')">5</button>
+                <button class="btn" onclick="press('6')">6</button>
+                <button class="btn btn-eq" style="grid-row: span 2" onclick="solve()">=</button>
                 
-                <button class="btn" onclick="onDigitPress('1')">1</button>
-                <button class="btn" onclick="onDigitPress('2')">2</button>
-                <button class="btn" onclick="onDigitPress('3')">3</button>
+                <button class="btn" onclick="press('1')">1</button>
+                <button class="btn" onclick="press('2')">2</button>
+                <button class="btn" onclick="press('3')">3</button>
                 
-                <button class="btn" style="grid-column: span 2" onclick="onDigitPress('0')">0</button>
-                <button class="btn" onclick="onDigitPress('.')">.</button>
+                <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button>
+                <button class="btn" onclick="press('.')">.</button>
             </div>
         </div>
     </div>
 
     <div id="view-games" class="view">
         <div class="arcade-tools">
-            <input type="text" id="search-input" class="search-in" placeholder="Search resources...">
-            <button class="btn btn-red" style="padding: 0 20px;" onclick="switchView('calculator')">Lock</button>
+            <input type="text" id="game-search" class="search-in" placeholder="Search resources..." oninput="drawGrid()">
+            <button class="btn btn-red" style="padding: 0 20px;" onclick="changeView('calculator')">Exit</button>
         </div>
         <div id="games-grid" class="games-grid"></div>
     </div>
 
     <div id="view-play" class="view">
-        <div class="play-nav">
-            <button class="btn" style="padding: 5px 15px; font-size: 12px;" onclick="switchView('games')">← Back</button>
-            <span id="playing-title" style="font-size: 14px; color: var(--text-dim);">Resource Loading...</span>
+        <div class="p-nav">
+            <button class="btn" style="padding: 5px 15px; font-size: 12px;" onclick="changeView('games')">← Library</button>
+            <span id="playing-now">Resource</span>
         </div>
-        <iframe id="game-iframe" src="about:blank"></iframe>
+        <iframe id="main-frame" src="about:blank"></iframe>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <h3>Settings</h3>
+        <p>Appearance</p>
+        <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="setTheme('dark')">Dark Mode</button>
+        <button class="btn" style="width: 100%; margin-bottom: 20px;" onclick="setTheme('light')">Light Mode</button>
+        <button class="btn btn-red" style="width: 100%;" onclick="toggleSettings()">Close</button>
     </div>
 
     <script>
-        const GAMES_DATA = [
-            {"code": "1001", "name": "1v1.LOL", "iframe": "https://geet.in.net/get/1v1-lol/game.html", "thumb": "https://geet.in.net/get/1v1-lol/splash.png"},
-            {"code": "1002", "name": "Retro Bowl", "iframe": "https://geet.in.net/get/retro-bowl/game.html", "thumb": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
-            {"code": "1003", "name": "Subway Surfers", "iframe": "https://geet.in.net/get/subway-surfers/game.html", "thumb": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"},
-            {"code": "1004", "name": "Drive Mad", "iframe": "https://geet.in.net/get/drive-mad/game.html", "thumb": "https://geet.in.net/get/drive-mad/logo.jpg"}
+        const GAMES = [
+            {"name": "1v1.LOL", "url": "https://geet.in.net/get/1v1-lol/game.html", "img": "https://geet.in.net/get/1v1-lol/splash.png"},
+            {"name": "Subway Surfers", "url": "https://geet.in.net/get/subway-surfers/game.html", "img": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"},
+            {"name": "Retro Bowl", "url": "https://geet.in.net/get/retro-bowl/game.html", "img": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
+            {"name": "Among Us", "url": "https://geet.in.net/get/among-us/game.html", "img": "https://geet.in.net/get/among-us/red.png"},
+            {"name": "Drive Mad", "url": "https://geet.in.net/get/drive-mad/game.html", "img": "https://geet.in.net/get/drive-mad/logo.jpg"},
+            {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://geet.in.net/get/slope/slope4.jpeg"},
+            {"name": "Minecraft 1.5", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://geet.in.net/get/minecraft-15/splash.jpeg"},
+            {"name": "Geometry Dash", "url": "https://geet.in.net/get/geometry-dash/game.html", "img": "https://geet.in.net/get/geometry-dash/geoscratchicon.png"}
         ];
 
-        const CLOAK = {
-            google: { title: 'Google', icon: 'https://www.google.com/favicon.ico' },
-            calc: { title: '0nlineCalculator', icon: 'https://www.google.com/s2/favicons?domain=calculator.com' }
-        };
+        let exp = "";
+        const resDiv = document.getElementById('calc-res');
+        const expDiv = document.getElementById('calc-exp');
 
-        let expression = '';
-        let codeInput = '';
-        const exprEl = document.getElementById('calc-expression');
-        const resEl = document.getElementById('calc-result');
+        function press(v) { exp += v; resDiv.textContent = exp; }
+        function clr() { exp = ""; resDiv.textContent = "0"; expDiv.textContent = ""; }
 
-        function applyCloak(type) {
-            document.title = CLOAK[type].title;
-            document.getElementById('favicon').href = CLOAK[type].icon;
+        function solve() {
+            const isSecret = document.getElementById('secret-switch').checked;
+            if (isSecret && exp === "8290") { changeView('games'); clr(); return; }
+            try {
+                expDiv.textContent = exp + " =";
+                exp = eval(exp).toString();
+                resDiv.textContent = exp;
+            } catch { resDiv.textContent = "Error"; exp = ""; }
         }
 
-        function switchView(view) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('view-active'));
-            document.getElementById('view-' + view).classList.add('view-active');
+        function sci(type) {
+            let v = parseFloat(exp) || 0;
+            if (type === 'sin') exp = Math.sin(v * Math.PI / 180).toFixed(4);
+            if (type === 'cos') exp = Math.cos(v * Math.PI / 180).toFixed(4);
+            if (type === 'sqrt') exp = Math.sqrt(v).toFixed(4);
+            resDiv.textContent = exp;
+        }
+
+        function changeView(v) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('view-active'));
+            document.getElementById('view-' + v).classList.add('view-active');
             
-            if (view === 'calculator') {
-                applyCloak('calc');
-                document.getElementById('game-iframe').src = 'about:blank';
+            const fav = document.getElementById('favicon');
+            if (v === 'calculator') {
+                document.title = "0nlineCalculator";
+                fav.href = "https://www.google.com/s2/favicons?domain=calculator.com";
+                document.getElementById('main-frame').src = "about:blank";
             } else {
-                applyCloak('google');
-                if(view === 'games') renderGrid();
+                document.title = "Google";
+                fav.href = "https://www.google.com/favicon.ico";
+                if (v === 'games') drawGrid();
             }
         }
 
-        function onDigitPress(digit) {
-            const isSecret = document.getElementById('mode-toggle').checked;
-            if (isSecret) {
-                codeInput += digit;
-                resEl.textContent = codeInput;
-                if (codeInput === '8290') {
-                    switchView('games');
-                    codeInput = '';
-                    resEl.textContent = '0';
-                } else if (codeInput.length >= 4) {
-                    codeInput = '';
-                    resEl.textContent = '0';
-                }
-                return;
-            }
-            expression += digit;
-            resEl.textContent = expression;
-        }
-
-        function handleAction(action) {
-            if (action === 'clear') { expression = ''; resEl.textContent = '0'; exprEl.textContent = ''; }
-            if (action === 'equals') {
-                try {
-                    exprEl.textContent = expression + ' =';
-                    expression = eval(expression.replace('×', '*').replace('÷', '/')).toString();
-                    resEl.textContent = expression;
-                } catch { resEl.textContent = 'Error'; expression = ''; }
-            }
-            if (['add','subtract','multiply','divide'].includes(action)) {
-                const char = action === 'multiply' ? '×' : action === 'divide' ? '÷' : action === 'add' ? '+' : '-';
-                expression += char;
-                resEl.textContent = expression;
-            }
-        }
-
-        function renderGrid() {
+        function drawGrid() {
+            const filter = document.getElementById('game-search').value.toLowerCase();
             const grid = document.getElementById('games-grid');
-            grid.innerHTML = '';
-            GAMES_DATA.forEach(g => {
+            grid.innerHTML = "";
+            GAMES.filter(g => g.name.toLowerCase().includes(filter)).forEach(g => {
                 const card = document.createElement('div');
                 card.className = 'game-card';
-                card.innerHTML = `<img src="${g.thumb}"><div>${g.name}</div>`;
+                card.innerHTML = `<img src="${g.img}"><div>${g.name}</div>`;
                 card.onclick = () => {
-                    document.getElementById('game-iframe').src = g.iframe;
-                    document.getElementById('playing-title').textContent = g.name;
-                    switchView('play');
+                    document.getElementById('main-frame').src = g.url;
+                    document.getElementById('playing-now').textContent = g.name;
+                    changeView('play');
                 };
                 grid.appendChild(card);
             });
         }
 
-        // Panic Key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' || e.key === '`') {
-                switchView('calculator');
-            }
-        });
+        function setTheme(t) {
+            if (t === 'light') document.body.classList.add('light-mode');
+            else document.body.classList.remove('light-mode');
+            toggleSettings();
+        }
 
-        // Search
-        document.getElementById('search-input').oninput = (e) => {
-            const val = e.target.value.toLowerCase();
-            document.querySelectorAll('.game-card').forEach(card => {
-                card.style.display = card.innerText.toLowerCase().includes(val) ? '' : 'none';
-            });
-        };
+        function toggleSettings() {
+            const m = document.getElementById('settings-modal');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        }
+
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' || e.key === '`') changeView('calculator'); });
     </script>
 </body>
 </html>
