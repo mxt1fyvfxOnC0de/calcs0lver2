@@ -11,23 +11,17 @@
             --text: #f8fafc; --dim: #94a3b8; --accent: #3b82f6; --green: #10b981;
             --orange: #f59e0b; --red: #ef4444; --border: rgba(255, 255, 255, 0.1);
         }
-
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; }
-        
-        /* --- Universal Navigation --- */
-        .top-nav {
-            width: 100%; background: var(--nav); border-bottom: 1px solid var(--border);
-            padding: 12px 0; display: flex; justify-content: center; gap: 25px;
-            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+        .light-mode {
+            --bg: #f1f5f9; --nav: rgba(255, 255, 255, 0.95); --card: #ffffff;
+            --text: #1e293b; --dim: #64748b; --accent: #2563eb; --green: #059669;
+            --orange: #d97706; --red: #dc2626; --border: #cbd5e1;
         }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; }
+        .top-nav { width: 100%; background: var(--nav); border-bottom: 1px solid var(--border); padding: 12px 0; display: flex; justify-content: center; gap: 25px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
         .top-nav span { color: var(--dim); font-size: 13px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
         .top-nav span:hover { color: var(--accent); }
-
-        /* --- View Management --- */
         .view { display: none; width: 100%; min-height: calc(100vh - 50px); flex-direction: column; align-items: center; padding: 40px 20px; box-sizing: border-box; }
         .active { display: flex; }
-
-        /* --- Cleaner Toggle Switch --- */
         .mode-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 11px; color: var(--dim); }
         .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -35,35 +29,24 @@
         .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent); }
         input:checked + .slider:before { transform: translateX(16px); }
-
-        /* --- Full Calculator UI --- */
         .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; width: 340px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         .screen { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; text-align: right; margin-bottom: 15px; border: 1px solid var(--border); }
         #res-field { font-size: 28px; font-weight: 700; min-height: 34px; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 14px; border-radius: 10px; color: white; cursor: pointer; font-size: 16px; transition: 0.1s; }
-        .btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
-        .btn-sci { font-size: 12px; color: var(--accent); background: rgba(59, 130, 246, 0.1); }
-        .btn-op { color: var(--orange); }
-
-        /* --- Interactive Formula Cards --- */
-        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
-        .formula-box { 
-            background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); 
-            cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .formula-box:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .formula-box h4 { margin: 0 0 10px 0; color: var(--accent); }
-        .formula-desc { display: none; margin-top: 15px; font-size: 13px; color: var(--dim); line-height: 1.4; border-top: 1px solid var(--border); padding-top: 10px; }
+        .btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 14px; border-radius: 10px; color: white; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: var(--accent); }
+        .btn-sci { font-size: 12px; color: var(--accent); }
+        .sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
+        .formula-box { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--border); cursor: pointer; }
+        .formula-desc { display: none; margin-top: 10px; font-size: 13px; color: var(--dim); border-top: 1px solid var(--border); padding-top: 10px; }
         .formula-box.open .formula-desc { display: block; }
-
-        /* --- Grapher --- */
-        .graph-workspace { display: grid; grid-template-columns: 280px 1fr; gap: 20px; width: 100%; max-width: 1200px; height: 500px; }
-        canvas { background: #000; border-radius: 15px; border: 1px solid var(--border); cursor: crosshair; }
-
-        /* --- Player --- */
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; justify-content: center; }
+        .game-card { background: var(--card); border-radius: 15px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
+        .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .game-card p { padding: 10px; margin: 0; text-align: center; font-size: 12px; font-weight: 600; }
         #player { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; flex-direction: column; }
         #player iframe { flex-grow: 1; border: none; }
+        #notes-area { width: 100%; max-width: 800px; height: 500px; background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; color: var(--text); font-size: 16px; outline: none; resize: none; }
     </style>
 </head>
 <body>
@@ -72,16 +55,15 @@
         <span onclick="changeView('calculator')">Calculator</span>
         <span onclick="changeView('algebra')">Algebra</span>
         <span onclick="changeView('geometry')">Geometry</span>
-        <span onclick="changeView('grapher')">Graphing Calc</span>
+        <span onclick="changeView('grapher')">Graphing</span>
+        <span onclick="changeView('notes')">Notes</span>
+        <span onclick="toggleTheme()">Theme</span>
     </nav>
 
     <div id="view-calculator" class="view active">
         <div class="calc-card">
             <div class="mode-container">
-                <label class="switch">
-                    <input type="checkbox" id="secret-trigger">
-                    <span class="slider"></span>
-                </label>
+                <label class="switch"><input type="checkbox" id="secret-trigger"><span class="slider"></span></label>
                 <span>ADVANCED MODE</span>
             </div>
             <div class="screen">
@@ -93,27 +75,22 @@
                 <button class="btn btn-sci" onclick="sci('cos')">cos</button>
                 <button class="btn btn-sci" onclick="sci('tan')">tan</button>
                 <button class="btn btn-sci" onclick="sci('sqrt')">√</button>
-                
-                <button class="btn btn-op" onclick="clr()">AC</button>
-                <button class="btn btn-op" onclick="press('/')">÷</button>
-                <button class="btn btn-op" onclick="press('*')">×</button>
-                <button class="btn btn-op" onclick="press('-')">−</button>
-                
+                <button class="btn" style="color:var(--red)" onclick="clr()">AC</button>
+                <button class="btn" onclick="press('/')">/</button>
+                <button class="btn" onclick="press('*')">*</button>
+                <button class="btn" onclick="press('-')">-</button>
                 <button class="btn" onclick="press('7')">7</button>
                 <button class="btn" onclick="press('8')">8</button>
                 <button class="btn" onclick="press('9')">9</button>
-                <button class="btn btn-op" onclick="press('+')">+</button>
-                
+                <button class="btn" onclick="press('+')">+</button>
                 <button class="btn" onclick="press('4')">4</button>
                 <button class="btn" onclick="press('5')">5</button>
                 <button class="btn" onclick="press('6')">6</button>
-                <button class="btn btn-op" onclick="sci('log')">log</button>
-                
+                <button class="btn" onclick="sci('log')">log</button>
                 <button class="btn" onclick="press('1')">1</button>
                 <button class="btn" onclick="press('2')">2</button>
                 <button class="btn" onclick="press('3')">3</button>
-                <button class="btn btn-op" style="background:var(--orange); color:white;" onclick="solve()">=</button>
-                
+                <button class="btn" style="background:var(--orange)" onclick="solve()">=</button>
                 <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button>
                 <button class="btn" onclick="press('.')">.</button>
                 <button class="btn btn-sci" onclick="press('Math.PI')">π</button>
@@ -124,76 +101,70 @@
     <div id="view-algebra" class="view">
         <div class="sheet-grid">
             <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Quadratic Formula</h4>
-                <code>x = [-b ± √(b²-4ac)] / 2a</code>
-                <div class="formula-desc">Used to find the roots of a quadratic equation. The term b²-4ac is the discriminant, which determines the number of real solutions.</div>
+                <h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code>
+                <div class="formula-desc">Solves for x in ax² + bx + c = 0.</div>
             </div>
             <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Logarithm Power Rule</h4>
-                <code>log_b(x^y) = y · log_b(x)</code>
-                <div class="formula-desc">A key property for solving exponential equations by bringing the exponent down as a multiplier.</div>
-            </div>
-            <div class="formula-box" onclick="this.classList.toggle('open')">
-                <h4>Slope-Intercept Form</h4>
-                <code>y = mx + b</code>
-                <div class="formula-desc">Defines a straight line where 'm' is the slope (steepness) and 'b' is the y-intercept (where it hits the vertical axis).</div>
+                <h4>Slope Intercept</h4><code>y = mx + b</code>
+                <div class="formula-desc">m is slope, b is y-intercept.</div>
             </div>
         </div>
         
+
+[Image of the quadratic formula]
+
     </div>
 
     <div id="view-geometry" class="view">
         <div class="sheet-grid">
-            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
-                <h4>Pythagorean Theorem</h4>
-                <code>a² + b² = c²</code>
-                <div class="formula-desc">For any right-angled triangle, the square of the hypotenuse (c) is equal to the sum of the squares of the other two sides.</div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Pythagorean</h4><code>a² + b² = c²</code>
+                <div class="formula-desc">Relates sides of a right triangle.</div>
             </div>
-            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
-                <h4>Sphere Volume</h4>
-                <code>V = 4/3πr³</code>
-                <div class="formula-desc">Calculates the total 3D space inside a sphere. Requires only the radius 'r' to solve.</div>
-            </div>
-            <div class="formula-box" onclick="this.classList.toggle('open')" style="border-left: 4px solid var(--green)">
-                <h4>Law of Cosines</h4>
-                <code>c² = a² + b² - 2ab cos(C)</code>
-                <div class="formula-desc">A generalization of the Pythagorean theorem used for finding sides/angles in non-right triangles.</div>
+            <div class="formula-box" onclick="this.classList.toggle('open')">
+                <h4>Circle Area</h4><code>A = πr²</code>
+                <div class="formula-desc">Calculates total surface of a circle.</div>
             </div>
         </div>
         
     </div>
 
     <div id="view-grapher" class="view">
-        <div class="graph-workspace">
-            <div class="graph-controls">
-                <h3 style="color:var(--accent); margin-top:0;">Function Analysis</h3>
-                <input type="text" id="eq-input" style="width:100%; background:#000; border:1px solid var(--border); color:var(--green); padding:10px; border-radius:8px;" value="Math.sin(x)">
-                <p style="font-size:11px; color:var(--dim); margin-top:10px;">Try: x*x, Math.cos(x), Math.sqrt(x)</p>
-                <button class="btn" style="width:100%; margin-top:10px; border-color:var(--accent)" onclick="drawGraph()">Update Plot</button>
-            </div>
-            <canvas id="graphCanvas"></canvas>
-        </div>
+        <input type="text" id="eq-input" style="background:#000; color:var(--green); padding:10px; width:300px; margin-bottom:10px;" value="Math.sin(x)">
+        <button class="btn" onclick="drawGraph()">Plot</button>
+        <canvas id="graphCanvas" style="width:80%; height:400px; margin-top:20px;"></canvas>
         
+
+[Image of a sine wave on a graph]
+
+    </div>
+
+    <div id="view-notes" class="view">
+        <textarea id="notes-area" placeholder="Write your study notes here..."></textarea>
     </div>
 
     <div id="view-games" class="view">
-        <div id="game-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:20px; width:100%; max-width:1000px;"></div>
+        <div class="game-grid" id="game-grid"></div>
     </div>
 
     <div id="player">
-        <div style="background:#1e293b; padding:10px; display:flex; gap:20px; border-bottom:1px solid var(--border);">
-            <button class="btn" style="padding:4px 12px; font-size:12px;" onclick="closePlayer()">CLOSE ESC</button>
-            <span id="playing-title" style="align-self:center; font-size:13px; color:var(--dim)">Resource Viewer</span>
+        <div style="background:#1e293b; padding:10px; display:flex; gap:20px;">
+            <button class="btn" onclick="closePlayer()">ESC</button>
+            <span id="playing-title" style="align-self:center">Game</span>
         </div>
         <iframe id="game-frame"></iframe>
     </div>
 
     <script>
         const GAMES = [
+            {"name": "Basket Random", "url": "https://geet.in.net/get/basket-random/game.html", "img": "https://geet.in.net/get/basket-random/logo.png"},
+            {"name": "Getaway Shootout", "url": "https://geet.in.net/get/getaway-shootout/game.html", "img": "https://geet.in.net/get/getaway-shootout/logo.png"},
+            {"name": "Tag", "url": "https://geet.in.net/get/tag/game.html", "img": "https://geet.in.net/get/tag/logo.png"},
             {"name": "1v1.LOL", "url": "https://geet.in.net/get/1v1-lol/game.html", "img": "https://geet.in.net/get/1v1-lol/splash.png"},
             {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://geet.in.net/get/slope/slope4.jpeg"},
+            {"name": "Minecraft", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://geet.in.net/get/minecraft-15/splash.jpeg"},
             {"name": "Retro Bowl", "url": "https://geet.in.net/get/retro-bowl/game.html", "img": "https://geet.in.net/get/retro-bowl/img/icon.jpg"},
-            {"name": "Minecraft", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://geet.in.net/get/minecraft-15/splash.jpeg"}
+            {"name": "Subway Surfers", "url": "https://geet.in.net/get/subway-surfers/game.html", "img": "https://geet.in.net/get/subway-surfers-ny/NewYorkIcon.png"}
         ];
 
         let exp = "";
@@ -204,8 +175,7 @@
         function clr() { exp = ""; res.textContent = "0"; exf.textContent = ""; }
         function solve() {
             if (document.getElementById('secret-trigger').checked && exp === "8290") { changeView('games'); clr(); return; }
-            try { exf.textContent = exp + " ="; exp = eval(exp.replace('Math.PI', Math.PI)).toString(); res.textContent = exp; } 
-            catch { res.textContent = "Error"; }
+            try { exf.textContent = exp + " ="; exp = eval(exp).toString(); res.textContent = exp; } catch { res.textContent = "Error"; }
         }
         function sci(type) {
             let v = parseFloat(exp) || 0;
@@ -216,34 +186,27 @@
             if (type === 'log') exp = Math.log10(v).toFixed(4);
             res.textContent = exp;
         }
-
         function changeView(v) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + v).classList.add('active');
             if (v === 'grapher') setTimeout(drawGraph, 50);
             if (v === 'games') renderGames();
         }
-
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
         function drawGraph() {
             const c = document.getElementById('graphCanvas'); const ctx = c.getContext('2d');
-            c.width = c.clientWidth; c.height = c.clientHeight;
-            const midX = c.width/2; const midY = c.height/2; const zoom = 40;
-            ctx.strokeStyle = '#1e293b'; ctx.beginPath();
-            for(let i=0; i<c.width; i+=zoom) { ctx.moveTo(i,0); ctx.lineTo(i,c.height); }
-            for(let i=0; i<c.height; i+=zoom) { ctx.moveTo(0,i); ctx.lineTo(c.width,i); }
+            c.width = c.clientWidth; c.height = 400;
+            ctx.strokeStyle = '#334155'; ctx.beginPath();
+            for(let i=0; i<c.width; i+=40) { ctx.moveTo(i,0); ctx.lineTo(i,c.height); }
+            for(let i=0; i<c.height; i+=40) { ctx.moveTo(0,i); ctx.lineTo(c.width,i); }
             ctx.stroke();
             ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2; ctx.beginPath();
             for(let sx=0; sx<c.width; sx++) {
-                let x = (sx - midX)/zoom;
-                try {
-                    let y = eval(document.getElementById('eq-input').value);
-                    let sy = midY - (y * zoom);
-                    if(sx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
-                } catch(e){}
+                let x = (sx - c.width/2)/40;
+                try { let y = eval(document.getElementById('eq-input').value); let sy = c.height/2 - (y * 40); if(sx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy); } catch(e){}
             }
             ctx.stroke();
         }
-
         function renderGames() {
             const grid = document.getElementById('game-grid'); grid.innerHTML = "";
             GAMES.forEach(g => {
@@ -253,7 +216,6 @@
                 grid.appendChild(div);
             });
         }
-
         function closePlayer() { document.getElementById('player').style.display='none'; document.getElementById('game-frame').src=''; }
         document.addEventListener('keydown', e => { if(e.key === 'Escape' || e.key === '`') { closePlayer(); changeView('calculator'); }});
     </script>
