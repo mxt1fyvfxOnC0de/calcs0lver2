@@ -37,28 +37,38 @@
         .game-card:hover { transform: scale(1.05); border-color: var(--green); }
         .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
 
-        /* --- THE RING (CASINO) --- */
-        .casino-header { color: var(--gold); font-size: 24px; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 0 10px rgba(250, 204, 21, 0.4); }
-        .balance-display { color: var(--green); font-size: 20px; font-weight: bold; margin-bottom: 20px; font-family: monospace; }
-        .bet-input { background: #000; border: 1px solid var(--gold); color: var(--gold); padding: 8px; border-radius: 8px; width: 80px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+        .casino-header { color: var(--gold); font-size: 32px; font-weight: 900; letter-spacing: 8px; margin-bottom: 10px; height: 40px; }
+        .typewriter { border-right: 3px solid var(--gold); white-space: nowrap; overflow: hidden; width: 0; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { 50% { border-color: transparent } }
         
-        .ring-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
-        .casino-card { background: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid var(--border); transition: 0.3s; text-align: center; position: relative; }
-        .casino-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(250, 204, 21, 0.2); transform: translateY(-5px); }
+        .balance-display { color: var(--green); font-size: 24px; font-weight: bold; margin-bottom: 20px; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+        .bet-input { background: #000; border: 2px solid var(--gold); color: var(--gold); padding: 10px; border-radius: 10px; width: 100px; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.2); }
         
-        .slot-display { font-size: 44px; background: #0f172a; padding: 15px; border-radius: 12px; letter-spacing: 8px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.05); }
-        .card-display { font-family: monospace; font-size: 14px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; min-height: 40px; margin: 10px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
-        .playing-card { background: white; color: black; padding: 4px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #ccc; }
+        .ring-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; }
+        .casino-card { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 30px; border-radius: 24px; border: 1px solid var(--border); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; position: relative; overflow: hidden; }
+        .casino-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold); opacity: 0; transition: 0.3s; }
+        .casino-card:hover { border-color: var(--gold); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 15px rgba(250, 204, 21, 0.1); }
+        .casino-card:hover::before { opacity: 1; }
+        
+        .slot-display { font-size: 50px; background: #020617; padding: 20px; border-radius: 15px; letter-spacing: 12px; margin: 20px 0; border: 1px solid var(--gold); box-shadow: 0 0 20px rgba(250, 204, 21, 0.1); }
+        .card-display { font-family: monospace; font-size: 16px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; min-height: 50px; margin: 15px 0; display: flex; justify-content: center; gap: 8px; }
+        .playing-card { background: #fff; color: #000; padding: 6px 12px; border-radius: 6px; font-weight: 900; border: 1px solid #ddd; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
 
-        #settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .settings-card { background: var(--bg); border: 1px solid var(--border); padding: 30px; border-radius: 24px; width: 300px; }
-        .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        #settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .settings-card { background: var(--bg); border: 1px solid var(--border); padding: 35px; border-radius: 30px; width: 320px; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(18px); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        #bust-cutscene { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .laugh-emoji { font-size: 120px; margin-bottom: 20px; animation: shake 0.5s infinite; }
+        .bust-text { color: var(--gold); font-size: 28px; font-weight: 900; max-width: 80%; line-height: 1.4; }
+        @keyframes shake { 0% { transform: rotate(0) } 25% { transform: rotate(10deg) } 75% { transform: rotate(-10deg) } 100% { transform: rotate(0) } }
 
         #player { display: none; position: fixed; inset: 0; background: #000; z-index: 4000; flex-direction: column; }
         #player iframe { flex-grow: 1; border: none; }
@@ -78,63 +88,56 @@
 
     <div id="settings-overlay" onclick="closeSettings(event)">
         <div class="settings-card" onclick="event.stopPropagation()">
-            <h2>System Preferences</h2>
-            <div class="setting-item"><span>Light Mode</span><label class="switch"><input type="checkbox" onchange="toggleTheme()"><span class="slider"></span></label></div>
-            <div class="setting-item"><span>Advanced Logic</span><label class="switch"><input type="checkbox" id="secret-trigger"><span class="slider"></span></label></div>
-            <div class="setting-item"><span>Big GL:</span><label class="switch"><input type="checkbox" id="gl-trigger"><span class="slider"></span></label></div>
-            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="document.getElementById('settings-overlay').style.display='none'">Save & Close</button>
+            <h2 style="margin-top:0">System Config</h2>
+            <div class="setting-item"><span>Dark Mode</span><label class="switch"><input type="checkbox" checked onchange="toggleTheme()"><span class="slider"></span></label></div>
+            <div class="setting-item"><span>Data Override</span><label class="switch"><input type="checkbox" id="secret-trigger"><span class="slider"></span></label></div>
+            <div class="setting-item"><span>Scientific Functions</span><label class="switch"><input type="checkbox" id="gl-trigger"><span class="slider"></span></label></div>
+            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="document.getElementById('settings-overlay').style.display='none'">Apply Settings</button>
         </div>
+    </div>
+
+    <div id="bust-cutscene">
+        <div class="laugh-emoji">😂</div>
+        <div class="bust-text">HAHA YOU LOST<br>THATS WHY U DONT GAMBLE</div>
+        <button class="btn" style="margin-top:40px; border:1px solid var(--gold)" onclick="resetDebt()">I LEARNED MY LESSON ($50)</button>
     </div>
 
     <div id="view-calculator" class="view active">
         <div class="calc-card">
             <div class="screen"><div id="exp-field" style="height:18px; font-size:11px; color:var(--dim)"></div><div id="res-field">0</div></div>
             <div class="grid">
-                <button class="btn" style="font-size:11px" onclick="sci('sin')">sin</button><button class="btn" style="font-size:11px" onclick="sci('cos')">cos</button><button class="btn" style="font-size:11px" onclick="sci('tan')">tan</button><button class="btn" style="font-size:11px" onclick="sci('sqrt')">√</button>
+                <button class="btn" onclick="sci('sin')">sin</button><button class="btn" onclick="sci('cos')">cos</button><button class="btn" onclick="sci('tan')">tan</button><button class="btn" onclick="sci('sqrt')">√</button>
                 <button class="btn" style="color:var(--red)" onclick="clr()">AC</button><button class="btn" onclick="press('/')">/</button><button class="btn" onclick="press('*')">*</button><button class="btn" onclick="press('-')">-</button>
                 <button class="btn" onclick="press('7')">7</button><button class="btn" onclick="press('8')">8</button><button class="btn" onclick="press('9')">9</button><button class="btn" onclick="press('+')">+</button>
-                <button class="btn" onclick="press('4')">4</button><button class="btn" onclick="press('5')">5</button><button class="btn" onclick="press('6')">6</button><button class="btn" style="font-size:11px" onclick="sci('log')">log</button>
+                <button class="btn" onclick="press('4')">4</button><button class="btn" onclick="press('5')">5</button><button class="btn" onclick="press('6')">6</button><button class="btn" onclick="sci('log')">log</button>
                 <button class="btn" onclick="press('1')">1</button><button class="btn" onclick="press('2')">2</button><button class="btn" onclick="press('3')">3</button><button class="btn" style="background:var(--orange); color:white" onclick="solve()">=</button>
-                <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button><button class="btn" onclick="press('.')">.</button><button class="btn" style="font-size:11px" onclick="press('Math.PI')">π</button>
+                <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button><button class="btn" onclick="press('.')">.</button><button class="btn" onclick="press('Math.PI')">π</button>
             </div>
         </div>
     </div>
 
     <div id="view-algebra" class="view">
-        <div class="sheet-grid">
-            <div class="formula-box" onclick="this.classList.toggle('open')"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code><div class="formula-desc">Finds x-intercepts of parabolas. 
-
-[Image of the quadratic formula]
-</div></div>
-        </div>
+        <div class="sheet-grid"><div class="formula-box" onclick="this.classList.toggle('open')"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code><div class="formula-desc">Essential for finding real and complex roots of parabolic functions.</div></div></div>
+        
     </div>
     <div id="view-geometry" class="view">
-        <div class="sheet-grid">
-            <div class="formula-box" onclick="this.classList.toggle('open')"><h4>Pythagorean Identity</h4><code>a² + b² = c²</code><div class="formula-desc">Relates the sides of a right triangle. 
-
-[Image of a right triangle]
-</div></div>
-        </div>
+        <div class="sheet-grid"><div class="formula-box" onclick="this.classList.toggle('open')"><h4>Pythagorean Theorem</h4><code>a² + b² = c²</code><div class="formula-desc">The primary relation for Euclidean distance in right-angled geometry.</div></div></div>
+        
     </div>
-
-    <div id="view-notes" class="view"><textarea id="notes-area" placeholder="Log experimental data..."></textarea></div>
+    <div id="view-notes" class="view"><textarea id="notes-area" placeholder="Enter proof data..."></textarea></div>
     <div id="view-games" class="view"><div class="game-grid" id="game-grid"></div></div>
 
     <div id="view-ring" class="view">
-        <div class="casino-header">THE RING</div>
-        <div class="balance-display" id="bal-txt">BALANCE: $50.00</div>
-        <div>
-            <label style="font-size: 11px; color: var(--gold); font-weight: bold;">BET: $</label>
-            <input type="number" id="bet-amt" class="bet-input" value="5" min="1">
-        </div>
+        <div id="typewriter-container" class="casino-header"></div>
+        <div class="balance-display" id="bal-txt">CASH: $50.00</div>
+        <input type="number" id="bet-amt" class="bet-input" value="10" min="1">
 
         <div class="ring-grid">
             <div class="casino-card">
                 <h3>SLOTS</h3>
                 <div class="slot-display" id="slot-res">🎰🎰🎰</div>
-                <button class="btn" style="width:100%; border: 1px solid var(--gold);" onclick="playSlots()">SPIN</button>
+                <button class="btn" style="width:100%; color:var(--gold)" onclick="playSlots()">PULL LEVER</button>
             </div>
-
             <div class="casino-card">
                 <h3>BLACKJACK</h3>
                 <div id="bj-dealer" class="card-display">Dealer: ??</div>
@@ -143,47 +146,63 @@
                     <button class="btn" style="flex:1" id="bj-hit" onclick="bjHit()" disabled>HIT</button>
                     <button class="btn" style="flex:1" id="bj-stand" onclick="bjStand()" disabled>STAND</button>
                 </div>
-                <button class="btn" style="width:100%; margin-top:10px; background: rgba(250,204,21,0.1);" onclick="bjStart()">NEW ROUND</button>
+                <button class="btn" style="width:100%; margin-top:10px; background:rgba(250,204,21,0.1)" onclick="bjStart()">DEAL CARDS</button>
             </div>
-
             <div class="casino-card">
                 <h3>BS or NO BS</h3>
-                <p style="font-size: 11px; color: var(--dim);">Next card > 7?</p>
-                <div id="bs-display" class="slot-display" style="font-size: 30px;">?</div>
+                <div id="bs-display" class="slot-display" style="font-size: 32px;">?</div>
                 <div style="display:flex; gap:10px;">
-                    <button class="btn" style="flex:1; font-size: 12px;" onclick="playBS(true)">NO BS (High)</button>
-                    <button class="btn" style="flex:1; font-size: 12px;" onclick="playBS(false)">BS (Low)</button>
+                    <button class="btn" style="flex:1" onclick="playBS(true)">NO BS (7+)</button>
+                    <button class="btn" style="flex:1" onclick="playBS(false)">BS (1-6)</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="player">
-        <div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;"><span style="color:var(--dim)">SECURE_MODULE</span><button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">ESC</button></div>
+        <div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;"><span style="color:var(--dim)">MODULE_ACTIVE</span><button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">ESC</button></div>
         <iframe id="game-frame"></iframe>
     </div>
 
     <script>
         const GAMES = [
             {"name": "Basket Random", "url": "https://geet.in.net/get/basket-random/game.html", "img": "https://play-lh.googleusercontent.com/uRovb2Y2k0vC0J2E6JkC0H8hZJq5v2B_"},
-            {"name": "Getaway Shootout", "url": "https://geet.in.net/get/getaway-shootout/game.html", "img": "https://play-lh.googleusercontent.com/7pG9K_v5V7A0R5G9H_I0B1A8C_"},
-            {"name": "Tag", "url": "https://geet.in.net/get/tag/game.html", "img": "https://play-lh.googleusercontent.com/uRovb2Y2k0vC0J2E6JkC0H8hZJq5v2B_"},
-            {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://play-lh.googleusercontent.com/9P_I7A_K6H_C0J1A9B_I7A_"}
+            {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://play-lh.googleusercontent.com/9P_I7A_K6H_C0J1A9B_I7A_"},
+            {"name": "1v1.LOL", "url": "https://geet.in.net/get/1v1-lol/game.html", "img": "https://play-lh.googleusercontent.com/8_C0J1A9B_I7A_K6H_"}
         ];
 
         let balance = 50.00;
         let exp = "";
         const res = document.getElementById('res-field');
 
-        function updateBal() { document.getElementById('bal-txt').textContent = `BALANCE: $${balance.toFixed(2)}`; }
+        function updateBal() { 
+            document.getElementById('bal-txt').textContent = `CASH: $${balance.toFixed(2)}`;
+            if(balance <= 0) document.getElementById('bust-cutscene').style.display = 'flex';
+        }
+        function resetDebt() { balance = 50; updateBal(); document.getElementById('bust-cutscene').style.display='none'; changeView('calculator'); }
         function getBet() { return parseFloat(document.getElementById('bet-amt').value); }
 
         function press(v) { exp += v; res.textContent = exp; }
         function clr() { exp = ""; res.textContent = "0"; }
         function solve() {
             if (document.getElementById('secret-trigger').checked && exp === "8290") { changeView('games'); clr(); return; }
-            if (document.getElementById('gl-trigger').checked && exp === "0000") { changeView('ring'); clr(); return; }
+            if (document.getElementById('gl-trigger').checked && exp === "0000") { changeView('ring'); startTypewriter(); clr(); return; }
             try { res.textContent = eval(exp); exp = res.textContent; } catch { res.textContent = "Error"; }
+        }
+
+        function startTypewriter() {
+            const container = document.getElementById('typewriter-container');
+            const text = "THE RING";
+            container.textContent = "";
+            let i = 0;
+            const interval = setInterval(() => {
+                container.textContent += text[i];
+                i++;
+                if(i >= text.length) {
+                    clearInterval(interval);
+                    setTimeout(() => container.style.opacity = '0.3', 2000);
+                }
+            }, 150);
         }
 
         function changeView(v) {
@@ -206,31 +225,29 @@
             });
         }
 
-        /* --- THE RING LOGIC --- */
         function playSlots() {
-            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
             balance -= bet;
-            const icons = ['🍒','🍋','🔔','💎','7️⃣'];
+            const icons = ['🍒','🔔','💎','7️⃣','🍋'];
             const r = [icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)]];
             document.getElementById('slot-res').textContent = r.join('');
-            if(r[0]===r[1] && r[1]===r[2]) { balance += bet * 10; alert("JACKPOT!"); }
+            if(r[0]===r[1] && r[1]===r[2]) { balance += bet * 12; }
             updateBal();
         }
 
         function playBS(high) {
-            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
             balance -= bet;
             const val = Math.floor(Math.random()*13) + 1;
             document.getElementById('bs-display').textContent = val;
-            const won = (high && val > 7) || (!high && val <= 7);
+            const won = (high && val >= 7) || (!high && val < 7);
             if(won) balance += bet * 2;
             updateBal();
         }
 
-        /* Blackjack Rebuild */
         let pHand = [], dHand = [];
         function bjStart() {
-            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            let bet = getBet(); if(bet > balance) return alert("Insufficient Funds");
             balance -= bet; updateBal();
             pHand = [drawCard(), drawCard()]; dHand = [drawCard()];
             document.getElementById('bj-hit').disabled = false;
@@ -246,7 +263,7 @@
         }
         function bjHit() {
             pHand.push(drawCard()); renderBJ();
-            if(pHand.reduce((a,b)=>a+b) > 21) { alert("Bust!"); bjEnd(false); }
+            if(pHand.reduce((a,b)=>a+b) > 21) bjEnd(false);
         }
         function bjStand() {
             while(dHand.reduce((a,b)=>a+b) < 17) dHand.push(drawCard());
@@ -255,7 +272,7 @@
             bjEnd(dS > 21 || pS > dS);
         }
         function bjEnd(won) {
-            if(won) { balance += getBet() * 2; alert("Winner!"); } else alert("House wins.");
+            if(won) balance += getBet() * 2;
             document.getElementById('bj-hit').disabled = true;
             document.getElementById('bj-stand').disabled = true;
             updateBal();
