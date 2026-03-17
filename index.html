@@ -10,7 +10,7 @@
             --bg: #0f172a; --nav: rgba(15, 23, 42, 0.95); --card: rgba(30, 41, 59, 0.7);
             --text: #f8fafc; --dim: #94a3b8; --accent: #3b82f6; --green: #10b981;
             --orange: #f59e0b; --red: #ef4444; --border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 20px 50px rgba(0,0,0,0.4);
+            --gold: #facc15; --shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
         .light-mode {
             --bg: #f8fafc; --nav: rgba(255, 255, 255, 0.95); --card: #ffffff;
@@ -21,22 +21,35 @@
         .top-nav { width: 100%; background: var(--nav); border-bottom: 1px solid var(--border); padding: 14px 0; display: flex; justify-content: center; gap: 30px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(12px); }
         .top-nav span { color: var(--dim); font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.2s; }
         .top-nav span:hover { color: var(--accent); }
+
         .view { display: none; width: 100%; min-height: calc(100vh - 60px); flex-direction: column; align-items: center; padding: 40px 20px; box-sizing: border-box; }
         .active { display: flex; }
+
         .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 28px; padding: 30px; width: 340px; box-shadow: var(--shadow); }
         .screen { background: rgba(0,0,0,0.1); border-radius: 16px; padding: 20px; text-align: right; margin-bottom: 20px; border: 1px solid var(--border); }
         #res-field { font-size: 32px; font-weight: 800; min-height: 38px; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 14px; color: var(--text); cursor: pointer; font-size: 17px; font-weight: 600; transition: 0.2s; }
+        .btn { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 14px; color: var(--text); cursor: pointer; font-size: 17px; font-weight: 600; transition: 0.2s; outline: none; }
         .btn:hover { background: var(--accent); color: white; transform: translateY(-2px); }
-        .btn-sci { font-size: 11px; color: var(--accent); background: rgba(59, 130, 246, 0.05); }
-        .formula-box { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; width: 100%; max-width: 400px; margin-bottom: 15px; }
-        .formula-desc { display: none; margin-top: 15px; font-size: 13px; color: var(--dim); border-top: 1px solid var(--border); padding-top: 15px; }
-        .formula-box.open .formula-desc { display: block; }
+
         .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
         .game-card { background: var(--card); border-radius: 18px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; }
         .game-card:hover { transform: scale(1.05); border-color: var(--green); }
         .game-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+        /* --- THE RING (CASINO) --- */
+        .casino-header { color: var(--gold); font-size: 24px; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 0 10px rgba(250, 204, 21, 0.4); }
+        .balance-display { color: var(--green); font-size: 20px; font-weight: bold; margin-bottom: 20px; font-family: monospace; }
+        .bet-input { background: #000; border: 1px solid var(--gold); color: var(--gold); padding: 8px; border-radius: 8px; width: 80px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+        
+        .ring-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+        .casino-card { background: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid var(--border); transition: 0.3s; text-align: center; position: relative; }
+        .casino-card:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(250, 204, 21, 0.2); transform: translateY(-5px); }
+        
+        .slot-display { font-size: 44px; background: #0f172a; padding: 15px; border-radius: 12px; letter-spacing: 8px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.05); }
+        .card-display { font-family: monospace; font-size: 14px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; min-height: 40px; margin: 10px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+        .playing-card { background: white; color: black; padding: 4px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #ccc; }
+
         #settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .settings-card { background: var(--bg); border: 1px solid var(--border); padding: 30px; border-radius: 24px; width: 300px; }
         .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -46,11 +59,7 @@
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent); }
         input:checked + .slider:before { transform: translateX(18px); }
-        
-        /* Ring Styles */
-        .ring-container { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
-        .casino-card { background: #1e293b; padding: 25px; border-radius: 20px; border: 2px solid gold; width: 320px; text-align: center; }
-        .slot-display { font-size: 40px; background: #0f172a; padding: 15px; border-radius: 10px; letter-spacing: 10px; margin: 10px 0; }
+
         #player { display: none; position: fixed; inset: 0; background: #000; z-index: 4000; flex-direction: column; }
         #player iframe { flex-grow: 1; border: none; }
         #notes-area { width: 100%; max-width: 900px; height: 60vh; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 25px; color: var(--text); resize: none; outline: none; }
@@ -81,73 +90,76 @@
         <div class="calc-card">
             <div class="screen"><div id="exp-field" style="height:18px; font-size:11px; color:var(--dim)"></div><div id="res-field">0</div></div>
             <div class="grid">
-                <button class="btn btn-sci" onclick="sci('sin')">sin</button><button class="btn btn-sci" onclick="sci('cos')">cos</button><button class="btn btn-sci" onclick="sci('tan')">tan</button><button class="btn btn-sci" onclick="sci('sqrt')">√</button>
+                <button class="btn" style="font-size:11px" onclick="sci('sin')">sin</button><button class="btn" style="font-size:11px" onclick="sci('cos')">cos</button><button class="btn" style="font-size:11px" onclick="sci('tan')">tan</button><button class="btn" style="font-size:11px" onclick="sci('sqrt')">√</button>
                 <button class="btn" style="color:var(--red)" onclick="clr()">AC</button><button class="btn" onclick="press('/')">/</button><button class="btn" onclick="press('*')">*</button><button class="btn" onclick="press('-')">-</button>
                 <button class="btn" onclick="press('7')">7</button><button class="btn" onclick="press('8')">8</button><button class="btn" onclick="press('9')">9</button><button class="btn" onclick="press('+')">+</button>
-                <button class="btn" onclick="press('4')">4</button><button class="btn" onclick="press('5')">5</button><button class="btn" onclick="press('6')">6</button><button class="btn btn-sci" onclick="sci('log')">log</button>
+                <button class="btn" onclick="press('4')">4</button><button class="btn" onclick="press('5')">5</button><button class="btn" onclick="press('6')">6</button><button class="btn" style="font-size:11px" onclick="sci('log')">log</button>
                 <button class="btn" onclick="press('1')">1</button><button class="btn" onclick="press('2')">2</button><button class="btn" onclick="press('3')">3</button><button class="btn" style="background:var(--orange); color:white" onclick="solve()">=</button>
-                <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button><button class="btn" onclick="press('.')">.</button><button class="btn btn-sci" onclick="press('Math.PI')">π</button>
+                <button class="btn" style="grid-column: span 2" onclick="press('0')">0</button><button class="btn" onclick="press('.')">.</button><button class="btn" style="font-size:11px" onclick="press('Math.PI')">π</button>
             </div>
         </div>
     </div>
 
     <div id="view-algebra" class="view">
-        <div class="formula-box" onclick="this.classList.toggle('open')">
-            <h4>Quadratic Theorem</h4><code>x = [-b ± √(b²-4ac)] / 2a</code>
-            <div class="formula-desc">Used to solve equations of the form ax² + bx + c = 0. 
+        <div class="sheet-grid">
+            <div class="formula-box" onclick="this.classList.toggle('open')"><h4>Quadratic Formula</h4><code>x = [-b ± √(b²-4ac)] / 2a</code><div class="formula-desc">Finds x-intercepts of parabolas. 
 
 [Image of the quadratic formula]
-</div>
+</div></div>
         </div>
     </div>
-
     <div id="view-geometry" class="view">
-        <div class="formula-box" onclick="this.classList.toggle('open')">
-            <h4>Pythagorean Identity</h4><code>a² + b² = c²</code>
-            <div class="formula-desc">Relates the three sides of a right triangle. 
+        <div class="sheet-grid">
+            <div class="formula-box" onclick="this.classList.toggle('open')"><h4>Pythagorean Identity</h4><code>a² + b² = c²</code><div class="formula-desc">Relates the sides of a right triangle. 
 
-[Image of a right-angled triangle]
-</div>
+[Image of a right triangle]
+</div></div>
         </div>
     </div>
 
-    <div id="view-notes" class="view"><textarea id="notes-area" placeholder="Derive theorems..."></textarea></div>
-
+    <div id="view-notes" class="view"><textarea id="notes-area" placeholder="Log experimental data..."></textarea></div>
     <div id="view-games" class="view"><div class="game-grid" id="game-grid"></div></div>
 
     <div id="view-ring" class="view">
-        <h1 style="color:gold">THE RING</h1>
-        <div class="ring-container">
+        <div class="casino-header">THE RING</div>
+        <div class="balance-display" id="bal-txt">BALANCE: $50.00</div>
+        <div>
+            <label style="font-size: 11px; color: var(--gold); font-weight: bold;">BET: $</label>
+            <input type="number" id="bet-amt" class="bet-input" value="5" min="1">
+        </div>
+
+        <div class="ring-grid">
             <div class="casino-card">
                 <h3>SLOTS</h3>
-                <div class="slot-display" id="slot-res">🍒🍒🍒</div>
-                <button class="btn" style="width:100%" onclick="playSlots()">SPIN</button>
+                <div class="slot-display" id="slot-res">🎰🎰🎰</div>
+                <button class="btn" style="width:100%; border: 1px solid var(--gold);" onclick="playSlots()">SPIN</button>
             </div>
+
             <div class="casino-card">
                 <h3>BLACKJACK</h3>
-                <div id="bj-msg">Dealer: ? | You: ?</div>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button class="btn" style="flex:1" onclick="bjHit()">HIT</button>
-                    <button class="btn" style="flex:1" onclick="bjStand()">STAND</button>
+                <div id="bj-dealer" class="card-display">Dealer: ??</div>
+                <div id="bj-player" class="card-display">You: ??</div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn" style="flex:1" id="bj-hit" onclick="bjHit()" disabled>HIT</button>
+                    <button class="btn" style="flex:1" id="bj-stand" onclick="bjStand()" disabled>STAND</button>
                 </div>
+                <button class="btn" style="width:100%; margin-top:10px; background: rgba(250,204,21,0.1);" onclick="bjStart()">NEW ROUND</button>
             </div>
+
             <div class="casino-card">
                 <h3>BS or NO BS</h3>
-                <p>Next card higher than 7?</p>
-                <div id="bs-card" style="font-size:30px">?</div>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button class="btn" style="flex:1" onclick="playBS(true)">NO BS (High)</button>
-                    <button class="btn" style="flex:1" onclick="playBS(false)">BS (Low)</button>
+                <p style="font-size: 11px; color: var(--dim);">Next card > 7?</p>
+                <div id="bs-display" class="slot-display" style="font-size: 30px;">?</div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn" style="flex:1; font-size: 12px;" onclick="playBS(true)">NO BS (High)</button>
+                    <button class="btn" style="flex:1; font-size: 12px;" onclick="playBS(false)">BS (Low)</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="player">
-        <div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;">
-            <span style="align-self:center; font-size:12px; color:var(--dim)">SYSTEM_LOADED</span>
-            <button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">EXIT (ESC)</button>
-        </div>
+        <div style="background:#1e293b; padding:12px; display:flex; justify-content: space-between;"><span style="color:var(--dim)">SECURE_MODULE</span><button class="btn" style="padding:4px 12px; font-size:11px;" onclick="closePlayer()">ESC</button></div>
         <iframe id="game-frame"></iframe>
     </div>
 
@@ -155,12 +167,16 @@
         const GAMES = [
             {"name": "Basket Random", "url": "https://geet.in.net/get/basket-random/game.html", "img": "https://play-lh.googleusercontent.com/uRovb2Y2k0vC0J2E6JkC0H8hZJq5v2B_"},
             {"name": "Getaway Shootout", "url": "https://geet.in.net/get/getaway-shootout/game.html", "img": "https://play-lh.googleusercontent.com/7pG9K_v5V7A0R5G9H_I0B1A8C_"},
-            {"name": "Boxing Random", "url": "https://geet.in.net/get/boxing-random/game.html", "img": "https://play-lh.googleusercontent.com/9P_I7A_K6H_C0J1A9B_"},
-            {"name": "Minecraft", "url": "https://geet.in.net/get/minecraft-15/game.html", "img": "https://i.pinimg.com/736x/83/7d/1b/837d1b3f71f64f7c6e6e2e2e2e2e2e2e.jpg"}
+            {"name": "Tag", "url": "https://geet.in.net/get/tag/game.html", "img": "https://play-lh.googleusercontent.com/uRovb2Y2k0vC0J2E6JkC0H8hZJq5v2B_"},
+            {"name": "Slope", "url": "https://geet.in.net/get/slope/game.html", "img": "https://play-lh.googleusercontent.com/9P_I7A_K6H_C0J1A9B_I7A_"}
         ];
 
+        let balance = 50.00;
         let exp = "";
         const res = document.getElementById('res-field');
+
+        function updateBal() { document.getElementById('bal-txt').textContent = `BALANCE: $${balance.toFixed(2)}`; }
+        function getBet() { return parseFloat(document.getElementById('bet-amt').value); }
 
         function press(v) { exp += v; res.textContent = exp; }
         function clr() { exp = ""; res.textContent = "0"; }
@@ -169,17 +185,11 @@
             if (document.getElementById('gl-trigger').checked && exp === "0000") { changeView('ring'); clr(); return; }
             try { res.textContent = eval(exp); exp = res.textContent; } catch { res.textContent = "Error"; }
         }
-        function sci(t) {
-            let v = parseFloat(exp) || 0;
-            if (t==='sin') exp = Math.sin(v * Math.PI/180).toFixed(2);
-            if (t==='sqrt') exp = Math.sqrt(v).toFixed(2);
-            res.textContent = exp;
-        }
 
         function changeView(v) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById('view-' + v).classList.add('active');
-            if (v === 'games') renderGames();
+            if(v==='games') renderGames();
         }
 
         function openSettings() { document.getElementById('settings-overlay').style.display='flex'; }
@@ -196,33 +206,59 @@
             });
         }
 
-        /* BIG GL LOGIC */
+        /* --- THE RING LOGIC --- */
         function playSlots() {
-            const icons = ['🍒','🔔','💎','7️⃣','🍋'];
+            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            balance -= bet;
+            const icons = ['🍒','🍋','🔔','💎','7️⃣'];
             const r = [icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)], icons[Math.floor(Math.random()*5)]];
             document.getElementById('slot-res').textContent = r.join('');
-            if(r[0]===r[1] && r[1]===r[2]) alert("JACKPOT!");
-        }
-
-        let playerTotal = 0;
-        function bjHit() {
-            playerTotal += Math.floor(Math.random()*10) + 1;
-            document.getElementById('bj-msg').textContent = `Dealer: ? | You: ${playerTotal}`;
-            if(playerTotal > 21) { alert("Bust!"); playerTotal = 0; }
-        }
-        function bjStand() {
-            let d = Math.floor(Math.random()*6) + 16;
-            let msg = (d > 21 || playerTotal > d) ? "You Win!" : "Dealer Wins!";
-            alert(`Dealer had ${d}. ${msg}`);
-            playerTotal = 0;
-            document.getElementById('bj-msg').textContent = `Dealer: ? | You: ?`;
+            if(r[0]===r[1] && r[1]===r[2]) { balance += bet * 10; alert("JACKPOT!"); }
+            updateBal();
         }
 
         function playBS(high) {
-            const next = Math.floor(Math.random()*13) + 1;
-            document.getElementById('bs-card').textContent = next;
-            const won = (high && next > 7) || (!high && next <= 7);
-            alert(won ? "No BS! You won." : "Total BS. You lost.");
+            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            balance -= bet;
+            const val = Math.floor(Math.random()*13) + 1;
+            document.getElementById('bs-display').textContent = val;
+            const won = (high && val > 7) || (!high && val <= 7);
+            if(won) balance += bet * 2;
+            updateBal();
+        }
+
+        /* Blackjack Rebuild */
+        let pHand = [], dHand = [];
+        function bjStart() {
+            let bet = getBet(); if(bet > balance) return alert("Broke!");
+            balance -= bet; updateBal();
+            pHand = [drawCard(), drawCard()]; dHand = [drawCard()];
+            document.getElementById('bj-hit').disabled = false;
+            document.getElementById('bj-stand').disabled = false;
+            renderBJ();
+        }
+        function drawCard() { return Math.floor(Math.random()*10) + 1; }
+        function renderBJ() {
+            const pDiv = document.getElementById('bj-player'); pDiv.innerHTML = "You: ";
+            pHand.forEach(c => pDiv.innerHTML += `<span class="playing-card">${c}</span>`);
+            const dDiv = document.getElementById('bj-dealer'); dDiv.innerHTML = "Dealer: ";
+            dHand.forEach(c => dDiv.innerHTML += `<span class="playing-card">${c}</span>`);
+        }
+        function bjHit() {
+            pHand.push(drawCard()); renderBJ();
+            if(pHand.reduce((a,b)=>a+b) > 21) { alert("Bust!"); bjEnd(false); }
+        }
+        function bjStand() {
+            while(dHand.reduce((a,b)=>a+b) < 17) dHand.push(drawCard());
+            renderBJ();
+            let pS = pHand.reduce((a,b)=>a+b), dS = dHand.reduce((a,b)=>a+b);
+            bjEnd(dS > 21 || pS > dS);
+        }
+        function bjEnd(won) {
+            if(won) { balance += getBet() * 2; alert("Winner!"); } else alert("House wins.");
+            document.getElementById('bj-hit').disabled = true;
+            document.getElementById('bj-stand').disabled = true;
+            updateBal();
         }
 
         function closePlayer() { document.getElementById('player').style.display='none'; document.getElementById('game-frame').src=''; }
